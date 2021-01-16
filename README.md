@@ -34,5 +34,28 @@
 ### 实现思路
 理论存在，实践开始。
 
+##### 基础架构
+我将整个工具分为两大部分，一部分负责UI，一部分负责提供API。
+
+负责提供API的部分，就是本仓库开源的内容，是一个 `NPM Global Package`。 
+由于 Github 与 NPM 打通，所以大家可以通过以下命令安装：
+
+```shell
+npm i -g https://github.com/Eusen/octopus.git
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
