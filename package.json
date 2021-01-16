@@ -1,0 +1,23 @@
+{
+  "name": "octopus",
+  "version": "0.0.1",
+  "description": "A generalist Web Development Magical Octopus",
+  "main": "index.js",
+  "scripts": {
+    "test": "-"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Eusen/octopus.git"
+  },
+  "keywords": [
+    "Web",
+    "DevOps"
+  ],
+  "author": "Eusen",
+  "license": "Apache License 2.0",
+  "bugs": {
+    "url": "https://github.com/Eusen/octopus/issues"
+  },
+  "homepage": "https://github.com/Eusen/octopus#readme"
+}
