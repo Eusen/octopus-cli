@@ -34,7 +34,7 @@
 ### 实现思路
 理论存在，实践开始。
 
-##### 基础架构
+#### 基础架构
 我将整个工具分为两大部分，一部分负责UI，一部分负责提供API。
 
 负责提供API的部分，就是本仓库开源的内容，是一个 `NPM Global Package`。 
@@ -44,8 +44,9 @@
 npm i -g https://github.com/Eusen/octopus.git
 ```
 
+负责UI的部分则是基于本仓库提供的API进行的封装，这样就形成了下面的组合：
 
-
+![flow](./assets/flow.png)
 
 
 
