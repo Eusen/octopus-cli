@@ -1,4 +1,5 @@
-# Octopus 
+# Octopus
+
 #### Command Line Interface
 
 ### 简介
@@ -19,12 +20,13 @@
 所以，制定一套通用且统一的架构体系实在是太重要了。
 
 ### 前端理论基础
+
 - [通用单项目结构](./docs/前端理论基础/通用单项目结构.md)
 - [通用多项目同构结构](./docs/前端理论基础/通用多项目同构结构.md)
 - [模块与业务模型](./docs/前端理论基础/模块与业务模型.md)
 - [路由与权限管理](./docs/前端理论基础/路由与权限管理.md)
 - [服务与状态管理](./docs/前端理论基础/服务与状态管理.md)
-- [API管理](./docs/前端理论基础/API管理.md)
+- [API 管理](./docs/前端理论基础/API管理.md)
 - [组件管理](./docs/前端理论基础/组件管理.md)
 - [插件管理](./docs/前端理论基础/插件管理.md)
 - [多语言](./docs/前端理论基础/多语言.md)
@@ -32,31 +34,20 @@
 - [资源管理](./docs/前端理论基础/资源管理.md)
 
 ### 实现思路
+
 理论存在，实践开始。
 
 #### 基础架构
-我将整个工具分为两大部分，一部分负责UI，一部分负责提供API。
 
-负责提供API的部分，就是本仓库开源的内容，是一个 `NPM Global Package`。 
+我将整个工具分为两大部分，一部分负责 UI，一部分负责提供 API。
+
+负责提供 API 的部分，就是本仓库开源的内容，是一个 `NPM Global Package`。
 由于 Github 与 NPM 打通，所以大家可以通过以下命令安装：
 
 ```shell
 npm i -g https://github.com/Eusen/octopus.git
 ```
 
-负责UI的部分则是基于本仓库提供的API进行的封装，这样就形成了下面的组合：
+负责 UI 的部分则是基于本仓库提供的 API 进行的封装，这样就形成了下面的组合：
 
-![flow](./assets/flow.png)
-
-
-
-
-
-
-
-
-
-
-
-
-
+![flow](https://github.com/Eusen/octopus/blob/main/assets/flow.png)
