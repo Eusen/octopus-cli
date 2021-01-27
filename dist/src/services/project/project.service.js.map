@@ -1,0 +1,1 @@
+{"version":3,"file":"project.service.js","sourceRoot":"","sources":["../../../../src/services/project/project.service.ts"],"names":[],"mappings":";;;AACA,sDAA4D;AAQ5D,MAAa,cAAc;IACzB,gBAAgB,CAAC,IAAsB,EAAE,MAAqB;QAC5D,QAAQ,IAAI,EAAE;YACZ,KAAK,KAAK;gBACR,OAAO,oCAAsB,CAAC,MAAM,CAAQ,CAAC;SAChD;QAED,OAAO,EAAE,CAAC;IACZ,CAAC;CACF;AATD,wCASC;AAEY,QAAA,QAAQ,GAAG,IAAI,cAAc,EAAE,CAAC"}

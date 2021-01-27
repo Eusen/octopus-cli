@@ -1,0 +1,1 @@
+{"version":3,"file":"new.js","sourceRoot":"","sources":["../../../../src/commands/new/new.ts"],"names":[],"mappings":";;AAEA,kBAAe;IACb,OAAO,CAAC,OAA0B;QAChC,OAAO;aACJ,OAAO,CAAC,YAAY,EAAE,gCAAgC,CAAC;aACvD,MAAM,CAAC,CAAC,IAAI,EAAE,EAAE;YACf,OAAO,CAAC,GAAG,CAAC,KAAK,EAAE,IAAI,CAAC,CAAC;QAC3B,CAAC,CAAC,CAAC;IACP,CAAC;CACF,CAAA"}

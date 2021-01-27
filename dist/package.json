@@ -1,0 +1,40 @@
+{
+    "name": "@octopus/cli",
+    "version": "0.0.1",
+    "description": "A generalist Web Development Magical Octopus",
+    "main": "index.js",
+    "scripts": {
+        "prebuild": "node ./scripts/prebuild.js",
+        "build": "tsc --project tsconfig.json"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Eusen/octopus.git"
+    },
+    "keywords": [
+        "Web",
+        "DevOps"
+    ],
+    "author": "Eusen",
+    "license": "Apache License 2.0",
+    "bugs": {
+        "url": "https://github.com/Eusen/octopus/issues"
+    },
+    "homepage": "https://github.com/Eusen/octopus#readme",
+    "bin": {
+        "ops": "index.js"
+    },
+    "dependencies": {
+        "chalk": "^4.1.0",
+        "commander": "^7.0.0",
+        "inquirer": "^7.3.3"
+    },
+    "devDependencies": {
+        "@types/inquirer": "^7.3.1",
+        "@types/webpack-dev-server": "^3.11.1",
+        "typescript": "^4.1.3",
+        "webpack-chain": "^6.5.1",
+        "webpack-dev-server": "^3.11.2",
+        "http-proxy-middleware": "^1.0.6"
+    }
+}
