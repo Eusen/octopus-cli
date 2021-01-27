@@ -1,6 +1,8 @@
-import {formRoot, getWorkstationName} from '../../utils/_path';
-import {ProjectConfig} from '../project/project.service';
+import chalk from "chalk";
 import {existsSync, writeFileSync} from 'fs';
+import {formRoot, getRootPath, getWorkstationDirname} from '../../utils/_path';
+import {ProjectConfig} from '../project/project.service';
+import {VueWorkstationCreator} from "./proxys/vue";
 
 export const WORKSTATION_TYPES_MAP = {
   vue: true,
@@ -17,29 +19,39 @@ export interface WorkstationConfig {
 }
 
 export class WorkstationService {
-  configPath = formRoot('workstation.config.json');
+  configPath = '';
   config: WorkstationConfig = {
-    name: getWorkstationName(),
+    name: getWorkstationDirname(),
     type: '' as any,
     projects: {},
   };
 
-  constructor() {
-    this.syncConfig();
+  syncConfig() {
+    return new Promise<any>((resolve) => {
+      if (!getRootPath()) {
+        console.log(chalk.red('The ops cli requires to be run in an Octopus workstation, but a workstation definition could not be found.'))
+        return resolve(false);
+      }
+
+      if (!this.configPath) {
+        this.configPath = formRoot('workstation.json');
+      }
+
+      if (existsSync(this.configPath)) {
+        this.config = require(this.configPath);
+      }
+
+      writeFileSync(this.configPath, JSON.stringify(this.config, null, 2));
+
+      resolve(true);
+    });
   }
 
-  private syncConfig() {
-    if (existsSync(this.configPath)) {
-      this.config = require(this.configPath);
+  create(name: string, type: WorkstationTypes) {
+    switch (type) {
+      case "vue":
+        return new VueWorkstationCreator(name).create();
     }
-
-    writeFileSync(this.configPath, JSON.stringify(this.config, null, 2));
-  }
-
-  init(name: string) {
-  }
-
-  create(type: WorkstationTypes) {
   }
 
   addProject(name: string) {

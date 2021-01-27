@@ -15,10 +15,8 @@ export interface WorkstationConfig {
 export declare class WorkstationService {
     configPath: string;
     config: WorkstationConfig;
-    constructor();
-    private syncConfig;
-    init(name: string): void;
-    create(type: WorkstationTypes): void;
+    syncConfig(): Promise<any>;
+    create(name: string, type: WorkstationTypes): Promise<void> | undefined;
     addProject(name: string): void;
     renameProject(name: string): void;
     removeProject(name: string): void;

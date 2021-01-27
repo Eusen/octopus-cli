@@ -1,4 +1,9 @@
 export declare class Main {
-    setup(): this;
+    static start(): void;
+    /**
+     * Some `@vue/cli` codes are used for reference
+     */
+    suggestCommands(unknownCommand?: string): void;
+    setup(): Promise<boolean>;
     run(): void;
 }

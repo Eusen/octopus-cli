@@ -6,7 +6,10 @@ const packageJson = require('../package.json');
 (() => {
   fs.rmdirSync('../dist', {recursive: true});
 
-  const isAllPackagesInstalled = Object.keys(packageJson.dependencies).every(packageName => {
+  const isAllPackagesInstalled = [
+      ...Object.keys(packageJson.dependencies),
+      ...Object.keys(packageJson.devDependencies),
+  ].every(packageName => {
     const packagePath = path.join(__dirname, `../node_modules/${packageName}`);
     return fs.existsSync(packagePath);
   });

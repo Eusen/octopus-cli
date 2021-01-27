@@ -1,5 +1,5 @@
 import {WorkstationTypes} from '../workstation/workstation.service';
-import {createVueProjectConfig} from './proxys/vue.project';
+import {createVueProjectConfig} from './proxys/vue';
 
 export interface ProjectConfig {
   name?: string;

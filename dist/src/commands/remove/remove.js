@@ -8,10 +8,13 @@ exports.default = {
             .command('remove [type] [name]')
             .description('Removes an extras from your project')
             .action(async (type, name) => {
+            const resp = await workstation_service_1.$workstation.syncConfig();
+            if (!resp)
+                return;
             if (!type)
                 type = await common_1.getExtraType();
             if (!name)
-                name = await common_1.getExtraName(name);
+                name = await common_1.getName(name);
             switch (type) {
                 case 'project':
                     return workstation_service_1.$workstation.removeProject(name);

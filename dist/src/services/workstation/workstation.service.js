@@ -1,8 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.$workstation = exports.WorkstationService = exports.WORKSTATION_TYPES_MAP = void 0;
-const _path_1 = require("../../utils/_path");
+const tslib_1 = require("tslib");
+const chalk_1 = tslib_1.__importDefault(require("chalk"));
 const fs_1 = require("fs");
+const _path_1 = require("../../utils/_path");
+const vue_1 = require("./proxys/vue");
 exports.WORKSTATION_TYPES_MAP = {
     vue: true,
     angular: true,
@@ -10,23 +13,34 @@ exports.WORKSTATION_TYPES_MAP = {
 };
 class WorkstationService {
     constructor() {
-        this.configPath = _path_1.formRoot('workstation.config.json');
+        this.configPath = '';
         this.config = {
-            name: _path_1.getWorkstationName(),
+            name: _path_1.getWorkstationDirname(),
             type: '',
             projects: {},
         };
-        this.syncConfig();
     }
     syncConfig() {
-        if (fs_1.existsSync(this.configPath)) {
-            this.config = require(this.configPath);
+        return new Promise((resolve) => {
+            if (!_path_1.getRootPath()) {
+                console.log(chalk_1.default.red('The ops cli requires to be run in an Octopus workstation, but a workstation definition could not be found.'));
+                return resolve(false);
+            }
+            if (!this.configPath) {
+                this.configPath = _path_1.formRoot('workstation.json');
+            }
+            if (fs_1.existsSync(this.configPath)) {
+                this.config = require(this.configPath);
+            }
+            fs_1.writeFileSync(this.configPath, JSON.stringify(this.config, null, 2));
+            resolve(true);
+        });
+    }
+    create(name, type) {
+        switch (type) {
+            case "vue":
+                return new vue_1.VueWorkstationCreator(name).create();
         }
-        fs_1.writeFileSync(this.configPath, JSON.stringify(this.config, null, 2));
-    }
-    init(name) {
-    }
-    create(type) {
     }
     addProject(name) {
     }

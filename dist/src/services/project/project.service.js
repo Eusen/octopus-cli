@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.$project = exports.ProjectService = void 0;
-const vue_project_1 = require("./proxys/vue.project");
+const vue_1 = require("./proxys/vue");
 class ProjectService {
     getDefaultConfig(type, config) {
         switch (type) {
             case 'vue':
-                return vue_project_1.createVueProjectConfig(config);
+                return vue_1.createVueProjectConfig(config);
         }
         return {};
     }
