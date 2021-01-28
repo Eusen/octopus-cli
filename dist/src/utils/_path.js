@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getWorkstationDirname = exports.formRoot = exports.getRootPath = void 0;
+exports.getWorkstationDirname = exports.formRoot = exports.initRootPath = exports.getRootPath = void 0;
 const tslib_1 = require("tslib");
 const path_1 = tslib_1.__importDefault(require("path"));
 const fs_1 = require("fs");
@@ -31,6 +31,10 @@ function getRootPath() {
     return rootPath;
 }
 exports.getRootPath = getRootPath;
+function initRootPath(name) {
+    rootPath = path_1.default.resolve(name);
+}
+exports.initRootPath = initRootPath;
 function formRoot(...paths) {
     return path_1.default.join(getRootPath(), ...paths);
 }

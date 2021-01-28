@@ -1,6 +1,6 @@
 import chalk from "chalk";
 import {existsSync, writeFileSync} from 'fs';
-import {formRoot, getRootPath, getWorkstationDirname} from '../../utils/_path';
+import {formRoot, getRootPath, getWorkstationDirname} from '../../utils';
 import {ProjectConfig} from '../project/project.service';
 import {VueWorkstationCreator} from "./proxys/vue";
 
@@ -20,11 +20,7 @@ export interface WorkstationConfig {
 
 export class WorkstationService {
   configPath = '';
-  config: WorkstationConfig = {
-    name: getWorkstationDirname(),
-    type: '' as any,
-    projects: {},
-  };
+  config!: WorkstationConfig;
 
   syncConfig() {
     return new Promise<any>((resolve) => {
@@ -39,6 +35,14 @@ export class WorkstationService {
 
       if (existsSync(this.configPath)) {
         this.config = require(this.configPath);
+      }
+
+      if (!this.config) {
+        this.config = {
+          name: getWorkstationDirname(),
+          type: '' as any,
+          projects: {},
+        };
       }
 
       writeFileSync(this.configPath, JSON.stringify(this.config, null, 2));

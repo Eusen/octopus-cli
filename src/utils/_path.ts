@@ -29,6 +29,10 @@ export function getRootPath() {
   return rootPath;
 }
 
+export function initRootPath(name: string) {
+  rootPath = $path.resolve(name);
+}
+
 export function formRoot(...paths: string[]) {
   return $path.join(getRootPath(), ...paths);
 }
