@@ -1,16 +1,19 @@
+#!/usr/bin/env node
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Main = void 0;
-const tslib_1 = require("tslib");
 const commander_1 = require("commander");
-const chalk_1 = tslib_1.__importDefault(require("chalk"));
-const leven_1 = tslib_1.__importDefault(require("leven"));
-const package_json_1 = tslib_1.__importDefault(require("../package.json"));
-const add_1 = tslib_1.__importDefault(require("./commands/add/add"));
-const rename_1 = tslib_1.__importDefault(require("./commands/rename/rename"));
-const remove_1 = tslib_1.__importDefault(require("./commands/remove/remove"));
-const new_1 = tslib_1.__importDefault(require("./commands/new/new"));
-const info_1 = tslib_1.__importDefault(require("./commands/info/info"));
+const chalk_1 = __importDefault(require("chalk"));
+const leven_1 = __importDefault(require("leven"));
+const package_json_1 = __importDefault(require("../package.json"));
+const add_1 = __importDefault(require("./commands/add/add"));
+const rename_1 = __importDefault(require("./commands/rename/rename"));
+const remove_1 = __importDefault(require("./commands/remove/remove"));
+const new_1 = __importDefault(require("./commands/new/new"));
+const info_1 = __importDefault(require("./commands/info/info"));
 class Main {
     static start() {
         const main = new Main();

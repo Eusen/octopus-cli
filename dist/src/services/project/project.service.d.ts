@@ -1,10 +1,10 @@
-import { WorkstationTypes } from '../workstation/workstation.service';
 export interface ProjectConfig {
     name?: string;
     root?: string;
     port?: number;
 }
 export declare class ProjectService {
-    getDefaultConfig(type: WorkstationTypes, config: ProjectConfig): ProjectConfig;
+    get type(): "vue" | "angular" | "react" | undefined;
+    create(name: string): Promise<void>;
 }
 export declare const $project: ProjectService;

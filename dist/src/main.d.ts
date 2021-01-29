@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 export declare class Main {
     static start(): void;
     /**

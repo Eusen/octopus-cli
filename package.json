@@ -2,7 +2,7 @@
   "name": "@octopus/cli",
   "version": "0.0.1",
   "description": "A generalist Web Development Magical Octopus",
-  "main": "index.js",
+  "main": "dist/src/index.js",
   "scripts": {
     "prebuild": "node ./scripts/prebuild.js",
     "build": "tsc --project tsconfig.json"
@@ -22,12 +22,13 @@
   },
   "homepage": "https://github.com/Eusen/octopus#readme",
   "bin": {
-    "ops": "index.js"
+    "ops": "dist/src/main.js"
   },
   "dependencies": {
     "chalk": "^4.1.0",
     "commander": "^7.0.0",
     "envinfo": "^7.7.3",
+    "fs-extra": "^9.1.0",
     "inquirer": "^7.3.3",
     "leven": "^3.1.0"
   },

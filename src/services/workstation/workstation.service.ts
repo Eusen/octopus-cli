@@ -1,6 +1,6 @@
 import chalk from "chalk";
 import {existsSync, writeFileSync} from 'fs';
-import {formRoot, getRootPath, getWorkstationDirname} from '../../utils';
+import {formRoot, getRootPath} from '../../utils';
 import {ProjectConfig} from '../project/project.service';
 import {VueWorkstationCreator} from "./proxys/vue";
 
@@ -22,7 +22,12 @@ export class WorkstationService {
   configPath = '';
   config!: WorkstationConfig;
 
-  syncConfig(type: WorkstationTypes) {
+  setConfig(config: WorkstationConfig) {
+    this.config = config;
+    return this.syncConfig();
+  }
+
+  syncConfig() {
     return new Promise<any>((resolve) => {
       if (!getRootPath()) {
         console.log(chalk.red('The ops cli requires to be run in an Octopus workstation, but a workstation definition could not be found.'))
@@ -35,14 +40,6 @@ export class WorkstationService {
 
       if (existsSync(this.configPath)) {
         this.config = require(this.configPath);
-      }
-
-      if (!this.config) {
-        this.config = {
-          name: getWorkstationDirname(),
-          type,
-          projects: {},
-        };
       }
 
       writeFileSync(this.configPath, JSON.stringify(this.config, null, 2));

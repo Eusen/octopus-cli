@@ -1,14 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.$project = exports.ProjectService = void 0;
-const vue_1 = require("./proxys/vue");
+const workstation_service_1 = require("../workstation/workstation.service");
 class ProjectService {
-    getDefaultConfig(type, config) {
-        switch (type) {
-            case 'vue':
-                return vue_1.createVueProjectConfig(config);
-        }
-        return {};
+    get type() {
+        return workstation_service_1.$workstation.config.type;
+    }
+    async create(name) {
     }
 }
 exports.ProjectService = ProjectService;

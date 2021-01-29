@@ -1,5 +1,4 @@
-import {WorkstationTypes} from '../workstation/workstation.service';
-import {createVueProjectConfig} from './proxys/vue';
+import {$workstation} from "../workstation/workstation.service";
 
 export interface ProjectConfig {
   name?: string;
@@ -8,13 +7,11 @@ export interface ProjectConfig {
 }
 
 export class ProjectService {
-  getDefaultConfig(type: WorkstationTypes, config: ProjectConfig): ProjectConfig {
-    switch (type) {
-      case 'vue':
-        return createVueProjectConfig(config) as any;
-    }
+  get type() {
+    return $workstation.config.type;
+  }
 
-    return {};
+  async create(name: string) {
   }
 }
 
