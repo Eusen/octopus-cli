@@ -22,7 +22,7 @@ export class WorkstationService {
   configPath = '';
   config!: WorkstationConfig;
 
-  syncConfig() {
+  syncConfig(type: WorkstationTypes) {
     return new Promise<any>((resolve) => {
       if (!getRootPath()) {
         console.log(chalk.red('The ops cli requires to be run in an Octopus workstation, but a workstation definition could not be found.'))
@@ -40,7 +40,7 @@ export class WorkstationService {
       if (!this.config) {
         this.config = {
           name: getWorkstationDirname(),
-          type: '' as any,
+          type,
           projects: {},
         };
       }
