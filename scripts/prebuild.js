@@ -10,11 +10,15 @@ const packageJson = require('../package.json');
       ...Object.keys(packageJson.dependencies),
       ...Object.keys(packageJson.devDependencies),
   ].every(packageName => {
-    const packagePath = path.join(__dirname, `../node_modules/${packageName}`);
+    const packagePath = fromRoot(`../node_modules/${packageName}`);
     return fs.existsSync(packagePath);
   });
 
   if (!isAllPackagesInstalled) {
-    childProcess.execSync(`cd ${path.join(__dirname, '..')} && npm i`);
+    childProcess.execSync(`cd ${fromRoot('..')} && npm i`);
   }
 })();
+
+function fromRoot(...paths) {
+  return path.join(__dirname, ...paths);
+}

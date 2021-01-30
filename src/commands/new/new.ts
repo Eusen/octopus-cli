@@ -23,7 +23,7 @@ export default {
           );
         }
 
-        $workstation.create(name, options.type);
+        await $workstation.create(name, options.type);
       });
   }
 }

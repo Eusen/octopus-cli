@@ -20,8 +20,8 @@ class VueWorkstationCreator extends _base_1.WorkstationCreatorBase {
         await this.removeVueInitFiles();
         // 3. 生成第一个 main 项目
         await project_service_1.$project.create(this.name);
-        // 4. 安装 @octopus/cli-service
-        await utils_1.exec('npm i https://github.com/Eusen/octopus-cli-service.git');
+        // 4. 本地安装 @octopus/cli
+        await utils_1.exec('npm i https://github.com/Eusen/octopus-cli.git');
         // 5. 生成 vue.config.js
         await this.createVueConfigFile();
     }

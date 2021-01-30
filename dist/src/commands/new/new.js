@@ -23,7 +23,7 @@ exports.default = {
                     chalk_1.default.yellowBright('angular\n') +
                     chalk_1.default.yellowBright('react'));
             }
-            workstation_service_1.$workstation.create(name, options.type);
+            await workstation_service_1.$workstation.create(name, options.type);
         });
     }
 };

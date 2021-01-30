@@ -21,7 +21,7 @@ export function getName(type: string) {
     type: 'input',
     name: 'name',
     message: `Give ${type} a name`
-  }]);
+  }]).then(resp => resp.name);
 }
 
 export function getWorkstationType() {

@@ -23,7 +23,7 @@ function getName(type) {
             type: 'input',
             name: 'name',
             message: `Give ${type} a name`
-        }]);
+        }]).then(resp => resp.name);
 }
 exports.getName = getName;
 function getWorkstationType() {

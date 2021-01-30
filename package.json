@@ -1,6 +1,6 @@
 {
   "name": "@octopus/cli",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "A generalist Web Development Magical Octopus",
   "main": "dist/src/index.js",
   "scripts": {
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Eusen/octopus.git"
+    "url": "git+https://github.com/Eusen/octopus-cli.git"
   },
   "keywords": [
     "Web",
@@ -18,9 +18,9 @@
   "author": "Eusen",
   "license": "Apache License 2.0",
   "bugs": {
-    "url": "https://github.com/Eusen/octopus/issues"
+    "url": "https://github.com/Eusen/octopus-cli/issues"
   },
-  "homepage": "https://github.com/Eusen/octopus#readme",
+  "homepage": "https://github.com/Eusen/octopus-cli#readme",
   "bin": {
     "ops": "dist/src/main.js"
   },
