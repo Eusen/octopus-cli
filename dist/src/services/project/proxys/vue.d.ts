@@ -1,3 +1,4 @@
+/// <reference types="@types/webpack-dev-server" />
 import ChainableConfig from 'webpack-chain';
 import { Configuration } from 'webpack-dev-server';
 import { Filter as HttpProxyFilter, Options as HttpProxyOptions } from 'http-proxy-middleware';

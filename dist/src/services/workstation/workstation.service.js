@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.$workstation = exports.WorkstationService = exports.WORKSTATION_TYPES_MAP = void 0;
+exports.$workstation = exports.WorkstationService = exports.WORKSTATION_LANGUAGES_MAP = exports.WORKSTATION_TYPES_MAP = void 0;
 const chalk_1 = __importDefault(require("chalk"));
 const fs_1 = require("fs");
 const utils_1 = require("../../utils");
@@ -12,6 +12,10 @@ exports.WORKSTATION_TYPES_MAP = {
     vue: true,
     angular: true,
     react: true,
+};
+exports.WORKSTATION_LANGUAGES_MAP = {
+    js: true,
+    ts: true,
 };
 class WorkstationService {
     constructor() {
@@ -28,7 +32,7 @@ class WorkstationService {
                 return resolve(false);
             }
             if (!this.configPath) {
-                this.configPath = utils_1.formRoot('workstation.json');
+                this.configPath = utils_1.fromRoot('workstation.json');
             }
             if (fs_1.existsSync(this.configPath)) {
                 this.config = require(this.configPath);
@@ -42,6 +46,7 @@ class WorkstationService {
             case "vue":
                 return new vue_1.VueWorkstationCreator(name).create();
         }
+        return Promise.resolve();
     }
     addProject(name) {
     }

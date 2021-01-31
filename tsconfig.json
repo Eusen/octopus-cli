@@ -18,7 +18,9 @@
     "baseUrl": ".",
     "types": [
       "@types/node",
-      "@types/inquirer"
+      "@types/inquirer",
+      "@types/webpack-dev-server",
+      "@types/fs-extra"
     ],
     "paths": {
     },

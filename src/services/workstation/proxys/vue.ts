@@ -1,7 +1,9 @@
 import {WorkstationCreatorBase} from "./_base";
-import {exec, initRootPath} from "../../../utils";
+import {exec, fromRoot, initRootPath} from "../../../utils";
 import {$workstation} from "../workstation.service";
-import {$project} from "../../project/project.service";
+import {moveSync} from "fs-extra";
+import $path from "path";
+import {existsSync, writeFileSync} from "fs";
 
 export class VueWorkstationCreator extends WorkstationCreatorBase {
   async create(): Promise<void> {
@@ -13,22 +15,38 @@ export class VueWorkstationCreator extends WorkstationCreatorBase {
     await $workstation.setConfig({
       name: this.name,
       type: "vue",
+      language: existsSync(fromRoot('tsconfig.json')) ? 'ts' : 'js',
       projects: {},
     });
 
-    // 2. 删除一些初始文件
-    await this.removeVueInitFiles();
-    // 3. 生成第一个 main 项目
-    await $project.create(this.name);
-    // 4. 本地安装 @octopus/cli
-    await exec('npm i https://github.com/Eusen/octopus-cli.git');
-    // 5. 生成 vue.config.js
+    // 2. 生成第一个 main 项目
+    console.log(`📄  Generating main project...`);
+    await this.initMainProject();
+    // 3. 生成 vue.config.js
+    console.log(`📄  Generating vue.config.js...`);
     await this.createVueConfigFile();
+    // 4. 本地安装 @octopus/cli
+    console.log(`⚙ Installing Octopus CLI service. This might take a while..`)
+    await exec(`cd ${fromRoot()} && npm i https://github.com/Eusen/octopus-cli.git`);
   }
 
-  async removeVueInitFiles() {
+  async initMainProject() {
+    const srcDir = fromRoot('src');
+    const mainProjectPath = fromRoot('project/main');
+    moveSync(srcDir, mainProjectPath);
+
+    if ($workstation.config.language === 'ts') {
+      ['shims-tsx.d.ts', 'shims-vue.d.ts'].forEach(dts => {
+        const oldDts = $path.join(mainProjectPath, dts);
+        if (existsSync(oldDts)) {
+          const newDts = $path.join(srcDir, dts);
+          moveSync(oldDts, newDts);
+        }
+      });
+    }
   }
 
   async createVueConfigFile() {
+    writeFileSync(fromRoot('vue.config.js'), `module.exports = require('@octopus/cli').$project.serve();\n`);
   }
 }

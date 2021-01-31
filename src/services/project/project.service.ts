@@ -13,6 +13,10 @@ export class ProjectService {
 
   async create(name: string) {
   }
+
+  serve() {
+  }
 }
+
 
 export const $project = new ProjectService();

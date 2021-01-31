@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getWorkstationDirname = exports.formRoot = exports.initRootPath = exports.getRootPath = void 0;
+exports.getWorkstationDirname = exports.fromRoot = exports.initRootPath = exports.getRootPath = void 0;
 const path_1 = __importDefault(require("path"));
 const fs_1 = require("fs");
 let rootPath = '';
@@ -37,12 +37,12 @@ function initRootPath(name) {
     rootPath = path_1.default.resolve(name);
 }
 exports.initRootPath = initRootPath;
-function formRoot(...paths) {
+function fromRoot(...paths) {
     return path_1.default.join(getRootPath(), ...paths);
 }
-exports.formRoot = formRoot;
+exports.fromRoot = fromRoot;
 function getWorkstationDirname() {
-    return path_1.default.basename(formRoot());
+    return path_1.default.basename(fromRoot());
 }
 exports.getWorkstationDirname = getWorkstationDirname;
 //# sourceMappingURL=_path.js.map

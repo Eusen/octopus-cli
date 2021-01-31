@@ -5,9 +5,15 @@ export declare const WORKSTATION_TYPES_MAP: {
     react: boolean;
 };
 export declare type WorkstationTypes = keyof typeof WORKSTATION_TYPES_MAP;
+export declare const WORKSTATION_LANGUAGES_MAP: {
+    js: boolean;
+    ts: boolean;
+};
+export declare type WorkstationLanguages = keyof typeof WORKSTATION_LANGUAGES_MAP;
 export interface WorkstationConfig {
     name?: string;
     type?: WorkstationTypes;
+    language?: WorkstationLanguages;
     projects?: {
         [key: string]: ProjectConfig;
     };
@@ -17,7 +23,7 @@ export declare class WorkstationService {
     config: WorkstationConfig;
     setConfig(config: WorkstationConfig): Promise<any>;
     syncConfig(): Promise<any>;
-    create(name: string, type: WorkstationTypes): Promise<void> | undefined;
+    create(name: string, type: WorkstationTypes): Promise<void>;
     addProject(name: string): void;
     renameProject(name: string): void;
     removeProject(name: string): void;

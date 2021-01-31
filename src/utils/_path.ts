@@ -33,10 +33,10 @@ export function initRootPath(name: string) {
   rootPath = $path.resolve(name);
 }
 
-export function formRoot(...paths: string[]) {
+export function fromRoot(...paths: string[]) {
   return $path.join(getRootPath(), ...paths);
 }
 
 export function getWorkstationDirname() {
-  return $path.basename(formRoot());
+  return $path.basename(fromRoot());
 }

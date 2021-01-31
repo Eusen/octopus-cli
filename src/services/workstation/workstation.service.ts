@@ -1,6 +1,6 @@
 import chalk from "chalk";
 import {existsSync, writeFileSync} from 'fs';
-import {formRoot, getRootPath} from '../../utils';
+import {fromRoot, getRootPath} from '../../utils';
 import {ProjectConfig} from '../project/project.service';
 import {VueWorkstationCreator} from "./proxys/vue";
 
@@ -12,9 +12,16 @@ export const WORKSTATION_TYPES_MAP = {
 
 export declare type WorkstationTypes = keyof typeof WORKSTATION_TYPES_MAP;
 
+export const WORKSTATION_LANGUAGES_MAP = {
+  js: true,
+  ts: true,
+};
+export declare type WorkstationLanguages = keyof typeof WORKSTATION_LANGUAGES_MAP;
+
 export interface WorkstationConfig {
   name?: string;
   type?: WorkstationTypes;
+  language?: WorkstationLanguages;
   projects?: { [key: string]: ProjectConfig };
 }
 
@@ -35,7 +42,7 @@ export class WorkstationService {
       }
 
       if (!this.configPath) {
-        this.configPath = formRoot('workstation.json');
+        this.configPath = fromRoot('workstation.json');
       }
 
       if (existsSync(this.configPath)) {
@@ -53,6 +60,8 @@ export class WorkstationService {
       case "vue":
         return new VueWorkstationCreator(name).create();
     }
+
+    return Promise.resolve();
   }
 
   addProject(name: string) {
