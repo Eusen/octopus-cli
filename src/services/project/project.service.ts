@@ -1,4 +1,7 @@
-import {$workstation} from "../workstation/workstation.service";
+import {$workstation} from '../workstation/workstation.service';
+import {VueProjectServe} from './proxys/vue';
+import commander from 'commander';
+import {exec} from '../../utils';
 
 export interface ProjectConfig {
   name?: string;
@@ -14,7 +17,24 @@ export class ProjectService {
   async create(name: string) {
   }
 
-  serve() {
+  serve(project: string) {
+    console.log(this.export());
+    console.log(`vue-cli-service serve --project ${project}`);
+    return exec(`vue-cli-service serve --project ${project}`);
+  }
+
+  export() {
+    const options = commander.program.opts();
+    const projects = $workstation.config.projects!;
+
+    console.log(options);
+
+    switch (this.type) {
+      case 'vue':
+        const vueConfig = projects.filter(p => p.name === options.project)[0] || projects[0];
+        if (!vueConfig) return {projectNameError: true};
+        return new VueProjectServe().export(vueConfig);
+    }
   }
 }
 

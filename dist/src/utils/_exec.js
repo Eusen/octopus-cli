@@ -6,11 +6,11 @@ function exec(cmd) {
     return new Promise((resolve, reject) => {
         const _process = child_process_1.spawn(cmd, {
             shell: true,
-            stdio: "inherit",
+            stdio: 'inherit',
             cwd: process.cwd(),
         });
-        _process.addListener("error", (err) => reject(err));
-        _process.addListener("exit", (code, signal) => resolve({ code, signal }));
+        _process.addListener('error', (err) => reject(err));
+        _process.addListener('exit', (code, signal) => resolve({ code, signal }));
     });
 }
 exports.exec = exec;

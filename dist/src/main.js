@@ -13,13 +13,14 @@ const add_1 = __importDefault(require("./commands/add/add"));
 const rename_1 = __importDefault(require("./commands/rename/rename"));
 const remove_1 = __importDefault(require("./commands/remove/remove"));
 const new_1 = __importDefault(require("./commands/new/new"));
+const serve_1 = __importDefault(require("./commands/serve/serve"));
 const info_1 = __importDefault(require("./commands/info/info"));
 class Main {
     static start() {
         const main = new Main();
-        main.setup().then(() => {
-            main.run();
-        }, err => {
+        main.setup()
+            .then(() => main.run())
+            .catch(err => {
             console.log(chalk_1.default.red(err));
         });
     }
@@ -43,13 +44,14 @@ class Main {
         }
     }
     setup() {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             commander_1.program
                 .name('ops')
                 .version(`${package_json_1.default.name} ${package_json_1.default.version}`)
                 .usage('<command> [options]');
             // install commands
             new_1.default.install(commander_1.program);
+            serve_1.default.install(commander_1.program);
             add_1.default.install(commander_1.program);
             rename_1.default.install(commander_1.program);
             remove_1.default.install(commander_1.program);

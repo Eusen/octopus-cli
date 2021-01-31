@@ -4,11 +4,11 @@ export function exec(cmd: string) {
   return new Promise<any>((resolve, reject) => {
     const _process = spawn(cmd, {
       shell: true,
-      stdio: "inherit",
+      stdio: 'inherit',
       cwd: process.cwd(),
     });
 
-    _process.addListener("error", (err: Error) => reject(err));
-    _process.addListener("exit", (code: number | null, signal: NodeJS.Signals | null) => resolve({code, signal}));
+    _process.addListener('error', (err: Error) => reject(err));
+    _process.addListener('exit', (code: number | null, signal: NodeJS.Signals | null) => resolve({code, signal}));
   });
 }

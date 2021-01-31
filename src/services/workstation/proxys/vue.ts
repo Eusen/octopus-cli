@@ -1,22 +1,28 @@
-import {WorkstationCreatorBase} from "./_base";
-import {exec, fromRoot, initRootPath} from "../../../utils";
-import {$workstation} from "../workstation.service";
-import {moveSync} from "fs-extra";
-import $path from "path";
-import {existsSync, writeFileSync} from "fs";
+import {moveSync} from 'fs-extra';
+import {existsSync, writeFileSync} from 'fs';
+import $path from 'path';
+import {WorkstationCreatorBase} from './_base';
+import {$workstation} from '../workstation.service';
+import {exec, fromRoot, initRootPath} from '../../../utils';
 
 export class VueWorkstationCreator extends WorkstationCreatorBase {
   async create(): Promise<void> {
-    await exec(`vue create ${this.name}`)
+    await exec(`vue create ${this.name} --no-git`);
     // vue 项目创建成功，初始化根目录
     initRootPath(this.name);
 
     // 1. 生成 workstation 配置文件
     await $workstation.setConfig({
       name: this.name,
-      type: "vue",
+      type: 'vue',
       language: existsSync(fromRoot('tsconfig.json')) ? 'ts' : 'js',
-      projects: {},
+      projects: [
+        {
+          name: 'main',
+          root: 'project/main',
+          port: 9621
+        }
+      ]
     });
 
     // 2. 生成第一个 main 项目
@@ -47,6 +53,6 @@ export class VueWorkstationCreator extends WorkstationCreatorBase {
   }
 
   async createVueConfigFile() {
-    writeFileSync(fromRoot('vue.config.js'), `module.exports = require('@octopus/cli').$project.serve();\n`);
+    writeFileSync(fromRoot('vue.config.js'), `module.exports = require('@octopus/cli').$project.export();\n`);
   }
 }

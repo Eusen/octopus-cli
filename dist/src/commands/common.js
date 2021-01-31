@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getWorkstationType = exports.getName = exports.getExtraType = exports.EXTRA_TYPES_MAP = void 0;
+exports.selectProject = exports.getWorkstationType = exports.getName = exports.getExtraType = exports.EXTRA_TYPES_MAP = void 0;
 const inquirer_1 = __importDefault(require("inquirer"));
 const workstation_service_1 = require("../services/workstation/workstation.service");
 exports.EXTRA_TYPES_MAP = {
@@ -35,4 +35,13 @@ function getWorkstationType() {
         }]).then(resp => resp.type);
 }
 exports.getWorkstationType = getWorkstationType;
+function selectProject() {
+    return inquirer_1.default.prompt([{
+            type: 'list',
+            name: 'name',
+            choices: workstation_service_1.$workstation.config.projects?.map(p => p.name),
+            message: 'Which project do you want to select?'
+        }]).then(resp => resp.name);
+}
+exports.selectProject = selectProject;
 //# sourceMappingURL=common.js.map

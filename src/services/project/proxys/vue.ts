@@ -50,21 +50,24 @@ export interface VueProjectConfig extends ProjectConfig {
   pluginOptions?: { [key: string]: any };
 }
 
-export function createVueProjectConfig(config: VueProjectConfig): VueProjectConfig {
-  return {
-    outputDir: `dist/${config.name}`,
-    devServer: {
-      port: config.port,
-    },
-    pages: {
-      index: {
-        entry: `${config.root}/main.ts`,
-        template: `${config.root}/index.html`,
-        filename: 'index.html',
-        title: config.name,
-        chunks: ['chunk-vendors', 'chunk-common', 'index']
-      }
-    },
-    ...config
-  };
+export class VueProjectServe {
+  export(config: VueProjectConfig) {
+    return {
+      outputDir: `dist/${config.name}`,
+      staticDir: `${config.root}/assets`,
+      devServer: {
+        port: config.port,
+      },
+      pages: {
+        index: {
+          entry: `${config.root}/main.ts`,
+          template: `${config.root}/index.html`,
+          filename: 'index.html',
+          title: config.name,
+          chunks: ['chunk-vendors', 'chunk-common', 'index']
+        }
+      },
+      ...config
+    }
+  }
 }

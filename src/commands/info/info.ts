@@ -1,5 +1,5 @@
 import commander from 'commander';
-import chalk from "chalk";
+import chalk from 'chalk';
 
 export default {
   install(program: commander.Command) {

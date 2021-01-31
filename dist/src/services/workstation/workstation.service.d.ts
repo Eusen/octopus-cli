@@ -14,9 +14,7 @@ export interface WorkstationConfig {
     name?: string;
     type?: WorkstationTypes;
     language?: WorkstationLanguages;
-    projects?: {
-        [key: string]: ProjectConfig;
-    };
+    projects?: ProjectConfig[];
 }
 export declare class WorkstationService {
     configPath: string;

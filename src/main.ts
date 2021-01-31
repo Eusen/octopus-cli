@@ -1,23 +1,24 @@
 #!/usr/bin/env node
 import {program} from 'commander';
-import chalk from "chalk";
-import leven from "leven";
+import chalk from 'chalk';
+import leven from 'leven';
 import packageJson from '../package.json';
 import AddCommand from './commands/add/add';
 import RenameCommand from './commands/rename/rename';
 import RemoveCommand from './commands/remove/remove';
 import NewCommand from './commands/new/new';
+import ServeCommand from './commands/serve/serve';
 import InfoCommand from './commands/info/info';
 
 export class Main {
   static start() {
     const main = new Main();
 
-    main.setup().then(() => {
-      main.run();
-    }, err => {
-      console.log(chalk.red(err));
-    });
+    main.setup()
+      .then(() => main.run())
+      .catch(err => {
+        console.log(chalk.red(err))
+      });
   }
 
   /**
@@ -43,7 +44,7 @@ export class Main {
   }
 
   setup() {
-    return new Promise<boolean>((resolve, reject) => {
+    return new Promise<boolean>((resolve) => {
       program
         .name('ops')
         .version(`${packageJson.name} ${packageJson.version}`)
@@ -51,6 +52,7 @@ export class Main {
 
       // install commands
       NewCommand.install(program);
+      ServeCommand.install(program);
       AddCommand.install(program);
       RenameCommand.install(program);
       RemoveCommand.install(program);

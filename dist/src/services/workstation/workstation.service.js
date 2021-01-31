@@ -43,7 +43,7 @@ class WorkstationService {
     }
     create(name, type) {
         switch (type) {
-            case "vue":
+            case 'vue':
                 return new vue_1.VueWorkstationCreator(name).create();
         }
         return Promise.resolve();

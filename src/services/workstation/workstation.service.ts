@@ -1,8 +1,8 @@
-import chalk from "chalk";
+import chalk from 'chalk';
 import {existsSync, writeFileSync} from 'fs';
 import {fromRoot, getRootPath} from '../../utils';
 import {ProjectConfig} from '../project/project.service';
-import {VueWorkstationCreator} from "./proxys/vue";
+import {VueWorkstationCreator} from './proxys/vue';
 
 export const WORKSTATION_TYPES_MAP = {
   vue: true,
@@ -22,7 +22,7 @@ export interface WorkstationConfig {
   name?: string;
   type?: WorkstationTypes;
   language?: WorkstationLanguages;
-  projects?: { [key: string]: ProjectConfig };
+  projects?: ProjectConfig[];
 }
 
 export class WorkstationService {
@@ -57,7 +57,7 @@ export class WorkstationService {
 
   create(name: string, type: WorkstationTypes) {
     switch (type) {
-      case "vue":
+      case 'vue':
         return new VueWorkstationCreator(name).create();
     }
 

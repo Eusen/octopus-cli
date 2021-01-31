@@ -1,7 +1,7 @@
 import commander from 'commander';
-import {getName, getWorkstationType} from "../common";
-import {$workstation, WORKSTATION_TYPES_MAP} from "../../services/workstation/workstation.service";
-import chalk from "chalk";
+import {getName, getWorkstationType} from '../common';
+import {$workstation, WORKSTATION_TYPES_MAP} from '../../services/workstation/workstation.service';
+import chalk from 'chalk';
 
 export default {
   install(program: commander.Command) {

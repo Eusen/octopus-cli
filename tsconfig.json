@@ -22,8 +22,6 @@
       "@types/webpack-dev-server",
       "@types/fs-extra"
     ],
-    "paths": {
-    },
     "lib": [
       "ESNext",
       "ESNext.Array",
