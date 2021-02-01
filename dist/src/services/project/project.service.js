@@ -15,11 +15,11 @@ class ProjectService {
     async create(name) {
     }
     serve(project) {
-        console.log(this.export());
-        console.log(`vue-cli-service serve --project ${project}`);
         return utils_1.exec(`vue-cli-service serve --project ${project}`);
     }
-    export() {
+    async export() {
+        await workstation_service_1.$workstation.syncConfig();
+        commander_1.default.program.parse();
         const options = commander_1.default.program.opts();
         const projects = workstation_service_1.$workstation.config.projects;
         console.log(options);

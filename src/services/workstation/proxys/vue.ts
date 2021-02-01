@@ -47,7 +47,7 @@ export class VueWorkstationCreator extends WorkstationCreatorBase {
 
     // 本地安装 @octopus/cli
     console.log(`⚙ Installing Octopus CLI service. This might take a while..`);
-    await exec(`cd ${fromRoot()} && npm i https://github.com/Eusen/octopus-cli.git`);
+    await exec(`cd ${fromRoot()} && npm i -D https://github.com/Eusen/octopus-cli.git`);
   }
 
   async initMainProject() {
