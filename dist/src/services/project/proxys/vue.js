@@ -14,7 +14,7 @@ class VueProjectServe {
             },
             pages: {
                 index: {
-                    entry: `${config.root}/main.ts`,
+                    entry: `${config.root}/main.${workstation_service_1.$workstation.config.language}`,
                     template: `${config.root}/index.html`,
                     filename: 'index.html',
                     title: config.name,
