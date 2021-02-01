@@ -1,4 +1,4 @@
-import {moveSync} from 'fs-extra';
+import {copySync, moveSync} from 'fs-extra';
 import {existsSync, writeFileSync, readFileSync} from 'fs';
 import $path from 'path';
 import {WorkstationCreatorBase} from './_base';
@@ -69,7 +69,8 @@ export class VueWorkstationCreator extends WorkstationCreatorBase {
   movePublicFiles() {
     const publicPath = fromRoot('public');
     const mainProjectAssetsPath = fromRoot('project/main/assets');
-    moveSync(publicPath, mainProjectAssetsPath);
+    moveSync($path.join(mainProjectAssetsPath, 'logo.png'), $path.join(publicPath, 'logo.png'))
+    moveSync(publicPath, mainProjectAssetsPath, {overwrite: true});
   }
 
   createVueConfigFile() {
