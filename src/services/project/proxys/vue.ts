@@ -76,7 +76,7 @@ export class VueProjectServe {
       configureWebpack: {
         resolve: {
           alias: $workstation.config.projects?.reduce((alias, project) => {
-            alias[project.name!] = fromRoot(`project/${project.name}`);
+            alias[`@${project.name}`] = fromRoot(`project/${project.name}`);
             return alias;
           }, {} as any),
         }
