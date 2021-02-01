@@ -1,12 +1,13 @@
 import commander from 'commander';
-import {ExtraTypes, getName, getExtraType} from '../common';
+import chalk from 'chalk';
 import {$workstation} from '../../services/workstation/workstation.service';
+import {ExtraTypes, getName, getExtraType} from '../common';
 
 export default {
   install(program: commander.Command) {
     program
       .command('remove [type] [name]')
-      .description('Removes an extras from your workstation')
+      .description(chalk.yellowBright('Removes an extras from your workstation'))
       .action(async (type: ExtraTypes, name) => {
         const errMsg = await $workstation.syncConfig();
 

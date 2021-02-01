@@ -5,7 +5,7 @@ export default {
   install(program: commander.Command) {
     program
       .command('info')
-      .description('Print debugging information about your environment')
+      .description(chalk.yellowBright('Print debugging information about your environment'))
       .action((cmd) => {
         console.log(chalk.bold('\nEnvironment Info:'))
         require('envinfo').run(

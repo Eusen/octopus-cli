@@ -4,10 +4,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.$project = exports.ProjectService = void 0;
-const workstation_service_1 = require("../workstation/workstation.service");
-const vue_1 = require("./proxys/vue");
 const commander_1 = __importDefault(require("commander"));
 const utils_1 = require("../../utils");
+const workstation_service_1 = require("../workstation/workstation.service");
+const vue_1 = require("./proxys/vue");
 class ProjectService {
     get type() {
         return workstation_service_1.$workstation.config.type;

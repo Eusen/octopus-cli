@@ -1,7 +1,7 @@
-import {$workstation} from '../workstation/workstation.service';
-import {VueProjectServe} from './proxys/vue';
 import commander from 'commander';
 import {exec} from '../../utils';
+import {$workstation} from '../workstation/workstation.service';
+import {VueProjectServe} from './proxys/vue';
 
 export interface ProjectConfig {
   name?: string;

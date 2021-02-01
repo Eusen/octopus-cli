@@ -8,6 +8,7 @@ import RenameCommand from './commands/rename/rename';
 import RemoveCommand from './commands/remove/remove';
 import NewCommand from './commands/new/new';
 import ServeCommand from './commands/serve/serve';
+import BuildCommand from './commands/build/build';
 import InfoCommand from './commands/info/info';
 
 export class Main {
@@ -53,6 +54,7 @@ export class Main {
       // install commands
       NewCommand.install(program);
       ServeCommand.install(program);
+      BuildCommand.install(program);
       AddCommand.install(program);
       RenameCommand.install(program);
       RemoveCommand.install(program);

@@ -1,4 +1,5 @@
 import commander from 'commander';
+import chalk from 'chalk';
 import {$workstation} from '../../services/workstation/workstation.service';
 import {ExtraTypes, getName, getExtraType} from '../common';
 
@@ -6,7 +7,7 @@ export default {
   install(program: commander.Command) {
     program
       .command('add [type] [name]')
-      .description('Adds an extras to your workstation')
+      .description(chalk.yellowBright('Adds an extras to your workstation'))
       .action(async (type: ExtraTypes, name) => {
         const errMsg = await $workstation.syncConfig();
 
