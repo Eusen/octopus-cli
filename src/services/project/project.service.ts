@@ -21,6 +21,10 @@ export class ProjectService {
     return exec(`vue-cli-service serve --project ${project}`);
   }
 
+  build(project: string) {
+    return exec(`vue-cli-service build --project ${project}`);
+  }
+
   export() {
     $workstation.syncConfig();
 

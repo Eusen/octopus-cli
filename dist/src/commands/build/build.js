@@ -10,16 +10,16 @@ const common_1 = require("../common");
 exports.default = {
     install(program) {
         program
-            .command(`serve [project]`)
-            .description(chalk_1.default.yellowBright('Serves a project in development mode'))
+            .command(`build [project]`)
+            .description(chalk_1.default.yellowBright('Build a project in production mode.'))
             .action(async (project) => {
             const errMsg = await workstation_service_1.$workstation.syncConfig();
             if (errMsg)
                 return console.log(errMsg);
             if (!project)
                 project = await common_1.selectProject();
-            return project_service_1.$project.serve(project);
+            return project_service_1.$project.build(project);
         });
     }
 };
-//# sourceMappingURL=serve.js.map
+//# sourceMappingURL=build.js.map

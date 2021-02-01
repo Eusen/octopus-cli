@@ -6,7 +6,7 @@ exports.default = {
     install(program) {
         program
             .command('remove [type] [name]')
-            .description('Removes an extras from your project')
+            .description('Removes an extras from your workstation')
             .action(async (type, name) => {
             const errMsg = await workstation_service_1.$workstation.syncConfig();
             if (errMsg)

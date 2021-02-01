@@ -8,7 +8,7 @@ exports.default = {
     install(program) {
         program
             .command('info')
-            .description('print debugging information about your environment')
+            .description('Print debugging information about your environment')
             .action((cmd) => {
             console.log(chalk_1.default.bold('\nEnvironment Info:'));
             require('envinfo').run({

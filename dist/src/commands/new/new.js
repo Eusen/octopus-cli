@@ -10,7 +10,7 @@ exports.default = {
     install(program) {
         program
             .command('new [name]')
-            .description('create an octopus workstation')
+            .description('Creates a workstation')
             .option('-t, --type <type>', 'Specifies the type of workstation')
             .action(async (name, options) => {
             if (!name)

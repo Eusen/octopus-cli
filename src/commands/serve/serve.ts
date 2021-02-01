@@ -1,13 +1,14 @@
 import commander from 'commander';
-import {selectProject} from '../common';
+import chalk from 'chalk';
 import {$workstation} from '../../services/workstation/workstation.service';
 import {$project} from '../../services/project/project.service';
+import {selectProject} from '../common';
 
 export default {
   install(program: commander.Command) {
     program
-      .command('serve [project]')
-      .description('Removes an extras from your workstation')
+      .command(`serve [project]`)
+      .description(chalk.yellowBright('Serves a project in development mode'))
       .action(async (project: string) => {
         const errMsg = await $workstation.syncConfig();
 

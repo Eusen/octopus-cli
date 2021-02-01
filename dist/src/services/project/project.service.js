@@ -17,6 +17,9 @@ class ProjectService {
     serve(project) {
         return utils_1.exec(`vue-cli-service serve --project ${project}`);
     }
+    build(project) {
+        return utils_1.exec(`vue-cli-service build --project ${project}`);
+    }
     export() {
         workstation_service_1.$workstation.syncConfig();
         commander_1.default.program.option('--project [name]', 'target project').parse();

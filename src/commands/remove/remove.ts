@@ -6,7 +6,7 @@ export default {
   install(program: commander.Command) {
     program
       .command('remove [type] [name]')
-      .description('Removes an extras from your project')
+      .description('Removes an extras from your workstation')
       .action(async (type: ExtraTypes, name) => {
         const errMsg = await $workstation.syncConfig();
 

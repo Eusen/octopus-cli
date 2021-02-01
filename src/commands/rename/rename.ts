@@ -1,4 +1,5 @@
 import commander from 'commander';
+import chalk from 'chalk';
 import {ExtraTypes, getName, getExtraType} from '../common';
 import {$workstation} from '../../services/workstation/workstation.service';
 
@@ -6,7 +7,7 @@ export default {
   install(program: commander.Command) {
     program
       .command('rename [type] [name]')
-      .description('Removes an extras from your workstation')
+      .description(chalk.yellowBright('Renames an extras from your workstation'))
       .action(async (type: ExtraTypes, name) => {
         const errMsg = await $workstation.syncConfig();
 
