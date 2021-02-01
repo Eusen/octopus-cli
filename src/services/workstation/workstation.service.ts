@@ -35,24 +35,19 @@ export class WorkstationService {
   }
 
   syncConfig() {
-    return new Promise<any>((resolve) => {
-      if (!getRootPath()) {
-        console.log(chalk.red('The ops cli requires to be run in an Octopus workstation, but a workstation definition could not be found.'))
-        return resolve(false);
-      }
+    if (!getRootPath()) {
+      return chalk.red('The ops cli requires to be run in an Octopus workstation, but a workstation definition could not be found.');
+    }
 
-      if (!this.configPath) {
-        this.configPath = fromRoot('workstation.json');
-      }
+    if (!this.configPath) {
+      this.configPath = fromRoot('workstation.json');
+    }
 
-      if (existsSync(this.configPath)) {
-        this.config = require(this.configPath);
-      }
+    if (existsSync(this.configPath)) {
+      this.config = require(this.configPath);
+    }
 
-      writeFileSync(this.configPath, JSON.stringify(this.config, null, 2));
-
-      resolve(true);
-    });
+    writeFileSync(this.configPath, JSON.stringify(this.config, null, 2));
   }
 
   create(name: string, type: WorkstationTypes) {

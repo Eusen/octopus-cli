@@ -18,11 +18,10 @@ class ProjectService {
         return utils_1.exec(`vue-cli-service serve --project ${project}`);
     }
     async export() {
-        await workstation_service_1.$workstation.syncConfig();
-        commander_1.default.program.option('--project', 'target project').parse();
+        workstation_service_1.$workstation.syncConfig();
+        commander_1.default.program.option('--project [name]', 'target project').parse();
         const options = commander_1.default.program.opts();
         const projects = workstation_service_1.$workstation.config.projects;
-        console.log(options);
         switch (this.type) {
             case 'vue':
                 const vueConfig = projects.filter(p => p.name === options.project)[0] || projects[0];

@@ -8,9 +8,9 @@ export default {
       .command('add [type] [name]')
       .description('Adds an extras to your workstation')
       .action(async (type: ExtraTypes, name) => {
-        const resp = await $workstation.syncConfig();
+        const errMsg = await $workstation.syncConfig();
 
-        if (!resp) return;
+        if (errMsg) return console.log(errMsg);
         if (!type) type = await getExtraType();
         if (!name) name = await getName(name);
 

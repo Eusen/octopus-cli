@@ -9,9 +9,9 @@ export default {
       .command('serve [project]')
       .description('Removes an extras from your workstation')
       .action(async (project: string) => {
-        const resp = await $workstation.syncConfig();
+        const errMsg = await $workstation.syncConfig();
 
-        if (!resp) return;
+        if (errMsg) return console.log(errMsg);
         if (!project) project = await selectProject();
 
         return $project.serve(project);

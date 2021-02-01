@@ -22,14 +22,13 @@ export class ProjectService {
   }
 
   async export() {
-    await $workstation.syncConfig();
+    $workstation.syncConfig();
 
-    commander.program.option('--project', 'target project').parse();
+    commander.program.option('--project [name]', 'target project').parse();
 
     const options = commander.program.opts();
     const projects = $workstation.config.projects!;
 
-    console.log(options);
 
     switch (this.type) {
       case 'vue':

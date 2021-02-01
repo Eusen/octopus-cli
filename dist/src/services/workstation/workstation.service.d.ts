@@ -19,8 +19,8 @@ export interface WorkstationConfig {
 export declare class WorkstationService {
     configPath: string;
     config: WorkstationConfig;
-    setConfig(config: WorkstationConfig): Promise<any>;
-    syncConfig(): Promise<any>;
+    setConfig(config: WorkstationConfig): string | undefined;
+    syncConfig(): string | undefined;
     create(name: string, type: WorkstationTypes): Promise<void>;
     addProject(name: string): void;
     renameProject(name: string): void;
