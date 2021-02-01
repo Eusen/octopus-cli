@@ -1,4 +1,4 @@
-import {copySync, moveSync} from 'fs-extra';
+import {moveSync} from 'fs-extra';
 import {existsSync, writeFileSync, readFileSync} from 'fs';
 import $path from 'path';
 import {WorkstationCreatorBase} from './_base';
@@ -44,6 +44,12 @@ export class VueWorkstationCreator extends WorkstationCreatorBase {
     // 修改 @vue/cli 中的部分内容，以支持多项目结构
     console.log(`📄  Modify '@vue/cli' to support multi project...`);
     this.modifyVueCLI();
+
+    if ($workstation.config.language === 'ts') {
+      // 修改 tsconfig.json 中的 alias
+      console.log(`📄  Modify 'tsconfig.json'...`);
+      this.modifyTsConfigAlias();
+    }
 
     // 本地安装 @octopus/cli
     console.log(`⚙ Installing Octopus CLI service. This might take a while..`);
@@ -122,5 +128,12 @@ export class VueWorkstationCreator extends WorkstationCreatorBase {
       appContent = appContent.replace(/api\.resolve\('public'\)/g, `api.resolve(options.staticDir || 'public')`);
       writeFileSync(appPath, appContent);
     }
+  }
+
+  modifyTsConfigAlias() {
+    const tsconfigPath = fromRoot('tsconfig');
+    const tsconfigContent = require(tsconfigPath);
+    tsconfigContent.compilerOptions.paths['@main/*'] = ['project/main/*'];
+    writeFileSync(tsconfigPath, JSON.stringify(tsconfigContent, null, 2));
   }
 }

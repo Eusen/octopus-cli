@@ -6,4 +6,5 @@ export declare class VueWorkstationCreator extends WorkstationCreatorBase {
     createVueConfigFile(): void;
     resetPackageScripts(): void;
     modifyVueCLI(): void;
+    modifyTsConfigAlias(): void;
 }

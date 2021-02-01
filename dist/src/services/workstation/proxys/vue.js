@@ -43,6 +43,11 @@ class VueWorkstationCreator extends _base_1.WorkstationCreatorBase {
         // 修改 @vue/cli 中的部分内容，以支持多项目结构
         console.log(`📄  Modify '@vue/cli' to support multi project...`);
         this.modifyVueCLI();
+        if (workstation_service_1.$workstation.config.language === 'ts') {
+            // 修改 tsconfig.json 中的 alias
+            console.log(`📄  Modify 'tsconfig.json'...`);
+            this.modifyTsConfigAlias();
+        }
         // 本地安装 @octopus/cli
         console.log(`⚙ Installing Octopus CLI service. This might take a while..`);
         await utils_1.exec(`cd ${utils_1.fromRoot()} && npm i -D https://github.com/Eusen/octopus-cli.git`);
@@ -109,6 +114,12 @@ class VueWorkstationCreator extends _base_1.WorkstationCreatorBase {
             appContent = appContent.replace(/api\.resolve\('public'\)/g, `api.resolve(options.staticDir || 'public')`);
             fs_1.writeFileSync(appPath, appContent);
         }
+    }
+    modifyTsConfigAlias() {
+        const tsconfigPath = utils_1.fromRoot('tsconfig');
+        const tsconfigContent = require(tsconfigPath);
+        tsconfigContent.compilerOptions.paths['@main/*'] = ['project/main/*'];
+        fs_1.writeFileSync(tsconfigPath, JSON.stringify(tsconfigContent, null, 2));
     }
 }
 exports.VueWorkstationCreator = VueWorkstationCreator;
