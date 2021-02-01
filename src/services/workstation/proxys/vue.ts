@@ -131,7 +131,7 @@ export class VueWorkstationCreator extends WorkstationCreatorBase {
   }
 
   modifyTsConfigAlias() {
-    const tsconfigPath = fromRoot('tsconfig');
+    const tsconfigPath = fromRoot('tsconfig.json');
     const tsconfigContent = require(tsconfigPath);
     tsconfigContent.compilerOptions.paths['@main/*'] = ['project/main/*'];
     writeFileSync(tsconfigPath, JSON.stringify(tsconfigContent, null, 2));
