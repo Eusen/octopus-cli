@@ -50,8 +50,11 @@ export interface VueProjectConfig extends ProjectConfig {
   pluginOptions?: { [key: string]: any };
 }
 
+export type VueProjectConfigKeys = keyof VueProjectConfig;
+
 export class VueProjectServe {
   export(config: VueProjectConfig) {
+    const excludeKeys = ['name', 'port', 'root'];
     return {
       outputDir: `dist/${config.name}`,
       staticDir: `${config.root}/assets`,
@@ -67,7 +70,11 @@ export class VueProjectServe {
           chunks: ['chunk-vendors', 'chunk-common', 'index']
         }
       },
-      ...config
+      ...Object.keys(config).reduce((c, key) => {
+        const typeKey = key as VueProjectConfigKeys;
+        if (!excludeKeys.includes(key)) c[typeKey] = config[typeKey];
+        return c;
+      }, {} as VueProjectConfig),
     }
   }
 }

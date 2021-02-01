@@ -54,6 +54,7 @@ export interface VueProjectConfig extends ProjectConfig {
         [key: string]: any;
     };
 }
+export declare type VueProjectConfigKeys = keyof VueProjectConfig;
 export declare class VueProjectServe {
     export(config: VueProjectConfig): {
         publicPath?: string | undefined;

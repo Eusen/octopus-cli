@@ -8,7 +8,7 @@ export declare class ProjectService {
     get type(): "vue" | "angular" | "react" | undefined;
     create(name: string): Promise<void>;
     serve(project: string): Promise<any>;
-    export(): Promise<{
+    export(): {
         publicPath?: string | undefined;
         outputDir: string;
         assetsDir?: string | undefined;
@@ -50,6 +50,6 @@ export declare class ProjectService {
         staticDir: string;
     } | {
         projectNameError: boolean;
-    } | undefined>;
+    } | undefined;
 }
 export declare const $project: ProjectService;

@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.VueProjectServe = void 0;
 class VueProjectServe {
     export(config) {
+        const excludeKeys = ['name', 'port', 'root'];
         return {
             outputDir: `dist/${config.name}`,
             staticDir: `${config.root}/assets`,
@@ -18,7 +19,12 @@ class VueProjectServe {
                     chunks: ['chunk-vendors', 'chunk-common', 'index']
                 }
             },
-            ...config
+            ...Object.keys(config).reduce((c, key) => {
+                const typeKey = key;
+                if (!excludeKeys.includes(key))
+                    c[typeKey] = config[typeKey];
+                return c;
+            }, {}),
         };
     }
 }
