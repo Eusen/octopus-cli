@@ -2,6 +2,8 @@ import ChainableConfig from 'webpack-chain';
 import {Configuration} from 'webpack-dev-server';
 import {Filter as HttpProxyFilter, Options as HttpProxyOptions} from 'http-proxy-middleware';
 import {ProjectConfig} from '../project.service';
+import {$workstation} from '../../workstation/workstation.service';
+import {fromRoot} from '../../../utils';
 
 export interface VuePageConfig {
   entry?: string;
@@ -29,6 +31,7 @@ export interface VuePwaConfig {
 }
 
 export interface VueProjectConfig extends ProjectConfig {
+  staticDir?: string;
   publicPath?: string;
   outputDir?: string;
   assetsDir?: string;
@@ -53,7 +56,7 @@ export interface VueProjectConfig extends ProjectConfig {
 export type VueProjectConfigKeys = keyof VueProjectConfig;
 
 export class VueProjectServe {
-  export(config: VueProjectConfig) {
+  export(config: VueProjectConfig): VueProjectConfig {
     const excludeKeys = ['name', 'port', 'root'];
     return {
       outputDir: `dist/${config.name}`,
@@ -68,6 +71,14 @@ export class VueProjectServe {
           filename: 'index.html',
           title: config.name,
           chunks: ['chunk-vendors', 'chunk-common', 'index']
+        }
+      },
+      configureWebpack: {
+        resolve: {
+          alias: $workstation.config.projects?.reduce((alias, project) => {
+            alias[project.name!] = fromRoot(`project/${project.name}`);
+            return alias;
+          }, {} as any),
         }
       },
       ...Object.keys(config).reduce((c, key) => {

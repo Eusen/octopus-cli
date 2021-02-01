@@ -53,6 +53,12 @@ export class VueWorkstationCreator extends WorkstationCreatorBase {
   async initMainProject() {
     const srcPath = fromRoot('src');
     const mainProjectPath = fromRoot('project/main');
+
+    // 修改 alias
+    const homePagePath = $path.join(srcPath, 'views/Home.vue');
+    const homePageContent = readFileSync(homePagePath).toString();
+    writeFileSync(homePagePath, homePageContent.replace('@/', '@main/'));
+
     moveSync(srcPath, mainProjectPath);
 
     if ($workstation.config.language === 'ts') {

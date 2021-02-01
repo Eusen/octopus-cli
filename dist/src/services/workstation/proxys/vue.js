@@ -50,6 +50,10 @@ class VueWorkstationCreator extends _base_1.WorkstationCreatorBase {
     async initMainProject() {
         const srcPath = utils_1.fromRoot('src');
         const mainProjectPath = utils_1.fromRoot('project/main');
+        // 修改 alias
+        const homePagePath = path_1.default.join(srcPath, 'views/Home.vue');
+        const homePageContent = fs_1.readFileSync(homePagePath).toString();
+        fs_1.writeFileSync(homePagePath, homePageContent.replace('@/', '@main/'));
         fs_extra_1.moveSync(srcPath, mainProjectPath);
         if (workstation_service_1.$workstation.config.language === 'ts') {
             ['shims-tsx.d.ts', 'shims-vue.d.ts'].forEach(dts => {

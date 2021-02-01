@@ -1,6 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.VueProjectServe = void 0;
+const workstation_service_1 = require("../../workstation/workstation.service");
+const utils_1 = require("../../../utils");
 class VueProjectServe {
     export(config) {
         const excludeKeys = ['name', 'port', 'root'];
@@ -17,6 +19,14 @@ class VueProjectServe {
                     filename: 'index.html',
                     title: config.name,
                     chunks: ['chunk-vendors', 'chunk-common', 'index']
+                }
+            },
+            configureWebpack: {
+                resolve: {
+                    alias: workstation_service_1.$workstation.config.projects?.reduce((alias, project) => {
+                        alias[project.name] = utils_1.fromRoot(`project/${project.name}`);
+                        return alias;
+                    }, {}),
                 }
             },
             ...Object.keys(config).reduce((c, key) => {

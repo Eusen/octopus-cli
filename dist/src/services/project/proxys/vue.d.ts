@@ -28,6 +28,7 @@ export interface VuePwaConfig {
     workboxOptions?: any;
 }
 export interface VueProjectConfig extends ProjectConfig {
+    staticDir?: string;
     publicPath?: string;
     outputDir?: string;
     assetsDir?: string;
@@ -56,45 +57,5 @@ export interface VueProjectConfig extends ProjectConfig {
 }
 export declare type VueProjectConfigKeys = keyof VueProjectConfig;
 export declare class VueProjectServe {
-    export(config: VueProjectConfig): {
-        publicPath?: string | undefined;
-        outputDir: string;
-        assetsDir?: string | undefined;
-        indexPath?: string | undefined;
-        filenameHashing?: boolean | undefined;
-        pages: {
-            [key: string]: string | VuePageConfig;
-        } | {
-            index: {
-                entry: string;
-                template: string;
-                filename: string;
-                title: string | undefined;
-                chunks: string[];
-            };
-        };
-        lintOnSave?: boolean | undefined;
-        runtimeCompiler?: boolean | undefined;
-        transpileDependencies?: (string | RegExp)[] | undefined;
-        productionSourceMap?: boolean | undefined;
-        crossorigin?: string | undefined;
-        integrity?: boolean | undefined;
-        configureWebpack?: any;
-        chainWebpack?: ((config: ChainableConfig) => void) | undefined;
-        css?: VueCssConfig | undefined;
-        devServer: (Configuration & {
-            proxy?: string | string[] | ((pathname: string, req: import("http-proxy-middleware/dist/types").Request) => boolean) | HttpProxyOptions | undefined;
-        }) | {
-            port: number | undefined;
-        };
-        parallel?: boolean | undefined;
-        pwa?: VuePwaConfig | undefined;
-        pluginOptions?: {
-            [key: string]: any;
-        } | undefined;
-        name?: string | undefined;
-        root?: string | undefined;
-        port?: number | undefined;
-        staticDir: string;
-    };
+    export(config: VueProjectConfig): VueProjectConfig;
 }
