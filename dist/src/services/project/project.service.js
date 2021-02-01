@@ -19,7 +19,7 @@ class ProjectService {
     }
     async export() {
         await workstation_service_1.$workstation.syncConfig();
-        commander_1.default.program.parse();
+        commander_1.default.program.option('--project', 'target project').parse();
         const options = commander_1.default.program.opts();
         const projects = workstation_service_1.$workstation.config.projects;
         console.log(options);

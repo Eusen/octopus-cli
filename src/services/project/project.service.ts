@@ -24,7 +24,7 @@ export class ProjectService {
   async export() {
     await $workstation.syncConfig();
 
-    commander.program.parse();
+    commander.program.option('--project', 'target project').parse();
 
     const options = commander.program.opts();
     const projects = $workstation.config.projects!;
