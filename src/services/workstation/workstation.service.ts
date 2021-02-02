@@ -100,6 +100,7 @@ export class WorkstationService {
       root,
       port: 9621 + this.config.projects.length,
     });
+    this.syncConfig();
 
     console.log(`👷 Checking whether '@octopus/cli-templates' installed or not...`);
     await this.checkTemplatesPackage();
@@ -117,7 +118,7 @@ export class WorkstationService {
     console.log(`✨ Successfully created project ${chalk.yellow(name)}.`);
     console.log(`✨ Get started with the following commands:`);
     console.log();
-    console.log(` $ ${chalk.blueBright(`cd ${name}`)}`);
+    console.log(` $ ${chalk.blueBright(`cd ${this.config.name}`)}`);
     console.log(` $ ${chalk.blueBright(`npm run serve`)}`);
     console.log();
   }

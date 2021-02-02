@@ -31,7 +31,7 @@ export class VueWorkstationCreator extends WorkstationCreatorBase {
     console.log(`🔧  Modify '@vue/cli' to support multi project...`);
     this.modifyVueCLI();
 
-    console.log(`🚀 Installing Octopus CLI service. This might take a while..`);
+    console.log(`🚀  Installing Octopus CLI service. This might take a while..`);
     await exec([
       `cd ${fromRoot()}`,
       'npm i -D https://github.com/Eusen/octopus-cli.git',
