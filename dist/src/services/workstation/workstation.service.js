@@ -85,8 +85,8 @@ class WorkstationService {
         this.syncConfig();
         console.log(`📝 Copying project template file to workstation...`);
         [
-            `templates/project/${this.config.type}/common`,
-            `templates/project/${this.config.type}/${this.config.language}`,
+            `project/${this.config.type}/common`,
+            `project/${this.config.type}/${this.config.language}`,
         ].forEach(dir => {
             fs_extra_1.copySync(utils_1.fromCLIRoot(dir), utils_1.fromRoot(root), { recursive: true, preserveTimestamps: true });
         });

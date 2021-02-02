@@ -42,7 +42,7 @@ function fromRoot(...paths) {
 }
 exports.fromRoot = fromRoot;
 function fromCLIRoot(...paths) {
-    return path_1.default.join(__dirname, '../../templates', ...paths);
+    return path_1.default.join(__dirname, '../../../templates', ...paths);
 }
 exports.fromCLIRoot = fromCLIRoot;
 function getWorkstationDirname() {
