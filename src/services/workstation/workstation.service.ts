@@ -105,7 +105,7 @@ export class WorkstationService {
     console.log(`👷 Checking whether '@octopus/cli-templates' installed or not...`);
     await this.checkTemplatesPackage();
 
-    console.log(`📝 Copying project template file to workstation...`)
+    console.log(`📝 Copying project template file to workstation...`);
     copySync(
       fromRoot(`node_modules/@octopus/cli-templates/project/${this.config.type}/${this.config.language}`),
       fromRoot(root),
