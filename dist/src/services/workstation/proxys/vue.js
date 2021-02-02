@@ -13,6 +13,7 @@ const utils_1 = require("../../../utils");
 class VueWorkstationCreator extends _base_1.WorkstationCreatorBase {
     async create() {
         await utils_1.exec(`vue create ${this.name} --no-git`);
+        utils_1.cls();
         utils_1.initRootPath(this.name);
         console.log(`🔨  Generating workstation.json...`);
         await workstation_service_1.$workstation.setConfig({

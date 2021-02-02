@@ -1,5 +1,7 @@
 import {spawn} from 'child_process';
-import chalk from "chalk";
+import chalk from 'chalk';
+import * as readline from 'readline';
+import packageJson from '../../package.json';
 
 export function exec(cmd: string) {
   return new Promise<any>((resolve, reject) => {
@@ -18,4 +20,18 @@ export function exec(cmd: string) {
 export function throwError(message: string, exit = false) {
   console.log(chalk.bold(chalk.red(message)));
   exit && process.exit(0);
+}
+
+export function getTitle() {
+  return chalk.blueBright(`Octopus CLI v${packageJson.version}`);
+}
+
+export function cls(title = getTitle()) {
+  if (process.stdout.isTTY) {
+    const blank = '\n'.repeat(process.stdout.rows)
+    console.log(blank)
+    readline.cursorTo(process.stdout, 0, 0)
+    readline.clearScreenDown(process.stdout)
+    if (title) console.log(title);
+  }
 }

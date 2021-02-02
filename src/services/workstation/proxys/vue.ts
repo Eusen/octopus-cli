@@ -3,11 +3,13 @@ import {existsSync, writeFileSync, readFileSync} from 'fs';
 import $path from 'path';
 import {WorkstationCreatorBase} from './_base';
 import {$workstation} from '../workstation.service';
-import {exec, fromRoot, initRootPath} from '../../../utils';
+import {cls, exec, fromRoot, initRootPath} from '../../../utils';
 
 export class VueWorkstationCreator extends WorkstationCreatorBase {
   async create(): Promise<void> {
     await exec(`vue create ${this.name} --no-git`);
+
+    cls();
 
     initRootPath(this.name);
 
