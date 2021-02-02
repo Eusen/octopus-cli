@@ -27,6 +27,8 @@ class VueWorkstationCreator extends _base_1.WorkstationCreatorBase {
         this.createVueConfigFile();
         console.log(`📝  Reset package scripts...`);
         this.resetPackageScripts();
+        console.log(`📝  Appending project dir to tsconfig.json...`);
+        this.appendProjectToTsConfigIncludes();
         console.log(`🔧  Modify '@vue/cli' to support multi project...`);
         this.modifyVueCLI();
         console.log(`🚀  Installing Octopus CLI service. This might take a while..`);
@@ -56,6 +58,13 @@ class VueWorkstationCreator extends _base_1.WorkstationCreatorBase {
             build: 'ops build',
         };
         fs_1.writeFileSync(packageJsonPath, JSON.stringify(json, null, 2));
+    }
+    appendProjectToTsConfigIncludes() {
+        const tsconfigPath = utils_1.fromRoot('tsconfig.json');
+        const tsconfig = require(tsconfigPath);
+        tsconfig.includes.push('projects/**/*.ts');
+        tsconfig.includes.push('projects/**/*.tsx');
+        tsconfig.includes.push('projects/**/*.vue');
     }
     modifyVueCLI() {
         const rootPath = utils_1.fromRoot('node_modules/@vue/cli-service');

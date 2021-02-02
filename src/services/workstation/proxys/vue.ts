@@ -28,6 +28,9 @@ export class VueWorkstationCreator extends WorkstationCreatorBase {
     console.log(`📝  Reset package scripts...`);
     this.resetPackageScripts();
 
+    console.log(`📝  Appending project dir to tsconfig.json...`);
+    this.appendProjectToTsConfigIncludes();
+
     console.log(`🔧  Modify '@vue/cli' to support multi project...`);
     this.modifyVueCLI();
 
@@ -62,6 +65,14 @@ export class VueWorkstationCreator extends WorkstationCreatorBase {
       build: 'ops build',
     };
     writeFileSync(packageJsonPath, JSON.stringify(json, null, 2));
+  }
+
+  appendProjectToTsConfigIncludes() {
+    const tsconfigPath = fromRoot('tsconfig.json');
+    const tsconfig = require(tsconfigPath);
+    tsconfig.includes.push('projects/**/*.ts');
+    tsconfig.includes.push('projects/**/*.tsx');
+    tsconfig.includes.push('projects/**/*.vue');
   }
 
   modifyVueCLI() {
