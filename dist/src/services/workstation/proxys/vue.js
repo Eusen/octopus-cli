@@ -19,13 +19,7 @@ class VueWorkstationCreator extends _base_1.WorkstationCreatorBase {
             name: this.name,
             type: 'vue',
             language: fs_1.existsSync(utils_1.fromRoot('tsconfig.json')) ? 'ts' : 'js',
-            projects: [
-                {
-                    name: 'main',
-                    root: 'projects/main',
-                    port: 9621
-                }
-            ]
+            projects: []
         });
         console.log(`🔥  Removing init files...`);
         this.removeInitFiles();
