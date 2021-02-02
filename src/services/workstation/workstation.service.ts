@@ -46,7 +46,7 @@ export class WorkstationService {
       this.configPath = fromRoot('workstation.json');
     }
 
-    if (existsSync(this.configPath)) {
+    if (!this.config && existsSync(this.configPath)) {
       this.config = require(this.configPath);
     }
 

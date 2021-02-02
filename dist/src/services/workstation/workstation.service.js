@@ -35,7 +35,7 @@ class WorkstationService {
         if (!this.configPath) {
             this.configPath = utils_1.fromRoot('workstation.json');
         }
-        if (fs_1.existsSync(this.configPath)) {
+        if (!this.config && fs_1.existsSync(this.configPath)) {
             this.config = require(this.configPath);
         }
         fs_1.writeFileSync(this.configPath, JSON.stringify(this.config, null, 2));
