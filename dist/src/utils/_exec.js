@@ -34,14 +34,18 @@ function exec(cmd) {
             stdio: 'inherit',
             cwd: process.cwd(),
         });
+        let disconnect = false;
+        _process.addListener('disconnect', () => disconnect = true);
         _process.addListener('error', (err) => reject(err));
-        _process.addListener('exit', (code, signal) => resolve({ code, signal }));
+        _process.addListener('exit', (code, signal) => {
+            !disconnect && code === 0 && resolve({ code, signal });
+        });
     });
 }
 exports.exec = exec;
 function throwError(message, exit = false) {
     console.log(chalk_1.default.bold(chalk_1.default.red(message)));
-    exit && process.exit(0);
+    exit && process.exit(1);
 }
 exports.throwError = throwError;
 function getTitle() {

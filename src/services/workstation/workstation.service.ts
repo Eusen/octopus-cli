@@ -62,13 +62,6 @@ export class WorkstationService {
     return Promise.resolve();
   }
 
-  private checkTemplatesPackage() {
-    if (!existsSync(fromRoot('node_modules/@octopus/cli-templates'))) {
-      return exec('npm i -D https://github.com/Eusen/octopus-cli-templates.git');
-    }
-    return Promise.resolve();
-  }
-
   private async modifyProjectAlias(rootPath: string, oldAlias: string, newAlias: string) {
     if (statSync(rootPath).isDirectory()) {
       const subDirs = readdirSync(rootPath);
@@ -105,9 +98,6 @@ export class WorkstationService {
       port: 9621 + this.config.projects.length,
     });
     this.syncConfig();
-
-    console.log(`👷 Checking whether '@octopus/cli-templates' installed or not...`);
-    await this.checkTemplatesPackage();
 
     console.log(`📝 Copying project template file to workstation...`);
     [

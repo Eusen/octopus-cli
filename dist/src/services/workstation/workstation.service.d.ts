@@ -23,7 +23,6 @@ export declare class WorkstationService {
     setConfig(config: WorkstationConfig): void;
     syncConfig(): void;
     create(name: string, type: WorkstationTypes): Promise<void>;
-    private checkTemplatesPackage;
     private modifyProjectAlias;
     addProject(name: string): Promise<void>;
     renameProject(name: string): void;

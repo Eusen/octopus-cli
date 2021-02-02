@@ -11,15 +11,19 @@ export function exec(cmd: string) {
       cwd: process.cwd(),
     });
 
+    let disconnect = false;
+    _process.addListener('disconnect', () => disconnect = true);
     _process.addListener('error', (err: Error) => reject(err));
-    _process.addListener('exit', (code: number | null, signal: NodeJS.Signals | null) => resolve({code, signal}));
+    _process.addListener('exit', (code: number | null, signal: NodeJS.Signals | null) => {
+      !disconnect && code === 0 && resolve({code, signal});
+    });
   });
 }
 
 
 export function throwError(message: string, exit = false) {
   console.log(chalk.bold(chalk.red(message)));
-  exit && process.exit(0);
+  exit && process.exit(1);
 }
 
 export function getTitle() {
