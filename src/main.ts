@@ -10,6 +10,7 @@ import NewCommand from './commands/new/new';
 import ServeCommand from './commands/serve/serve';
 import BuildCommand from './commands/build/build';
 import InfoCommand from './commands/info/info';
+import {throwError} from './utils';
 
 export class Main {
   static start() {
@@ -17,13 +18,12 @@ export class Main {
 
     main.setup()
       .then(() => main.run())
-      .catch(err => {
-        console.log(chalk.red(err))
-      });
+      .catch(err => throwError(err.message || err));
   }
 
   /**
-   * Some `@vue/cli` codes are used for reference
+   * Some `@vue/cli` codes are used for reference.
+   * Respect!
    */
   suggestCommands(unknownCommand = '') {
     const availableCommands = program.commands.map(cmd => cmd.name());

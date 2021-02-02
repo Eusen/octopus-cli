@@ -9,9 +9,8 @@ export default {
       .command('remove [type] [name]')
       .description(chalk.yellowBright('Removes an extras from your workstation'))
       .action(async (type: ExtraTypes, name) => {
-        const errMsg = await $workstation.syncConfig();
+        await $workstation.syncConfig();
 
-        if (errMsg) return console.log(errMsg);
         if (!type) type = await getExtraType();
         if (!name) name = await getName(name);
 

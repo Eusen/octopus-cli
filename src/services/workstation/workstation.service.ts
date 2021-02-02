@@ -1,8 +1,9 @@
-import chalk from 'chalk';
-import {existsSync, writeFileSync} from 'fs';
-import {fromRoot, getRootPath} from '../../utils';
+import {existsSync, writeFileSync, statSync, readdirSync, readFileSync} from 'fs';
+import {exec, fromRoot, getRootPath, throwError} from '../../utils';
 import {ProjectConfig} from '../project/project.service';
 import {VueWorkstationCreator} from './proxys/vue';
+import {copySync} from 'fs-extra';
+import $path from "path";
 
 export const WORKSTATION_TYPES_MAP = {
   vue: true,
@@ -19,10 +20,10 @@ export const WORKSTATION_LANGUAGES_MAP = {
 export declare type WorkstationLanguages = keyof typeof WORKSTATION_LANGUAGES_MAP;
 
 export interface WorkstationConfig {
-  name?: string;
-  type?: WorkstationTypes;
-  language?: WorkstationLanguages;
-  projects?: ProjectConfig[];
+  name: string;
+  type: WorkstationTypes;
+  language: WorkstationLanguages;
+  projects: ProjectConfig[];
 }
 
 export class WorkstationService {
@@ -36,7 +37,8 @@ export class WorkstationService {
 
   syncConfig() {
     if (!getRootPath()) {
-      return chalk.red('The ops cli requires to be run in an Octopus workstation, but a workstation definition could not be found.');
+      return throwError('The ops cli requires to be run in an Octopus workstation, ' +
+        'but a workstation definition could not be found.', true);
     }
 
     if (!this.configPath) {
@@ -55,17 +57,83 @@ export class WorkstationService {
       case 'vue':
         return new VueWorkstationCreator(name).create();
     }
-
     return Promise.resolve();
   }
 
-  addProject(name: string) {
+  private checkTemplatesPackage() {
+    if (!existsSync(fromRoot('node_modules/@octopus/cli-templates'))) {
+      return exec('npm i -D https://github.com/Eusen/octopus-cli-templates.git');
+    }
+    return Promise.resolve();
+  }
+
+  private async modifyProjectAlias(rootPath: string, oldAlias: string, newAlias: string) {
+    if (statSync(rootPath).isDirectory()) {
+      const subDirs = readdirSync(rootPath);
+      for await (const dir of subDirs) {
+        await this.modifyProjectAlias($path.join(rootPath, dir), oldAlias, newAlias);
+      }
+    } else {
+      const content = readFileSync(rootPath).toString();
+      writeFileSync(rootPath, content.replace(new RegExp(oldAlias, 'g'), newAlias));
+    }
+  }
+
+  async addProject(name: string) {
+    // 检测是否存在同名项目
+    const noSameProjectName = this.config.projects.every(p => p.name !== name);
+
+    if (!noSameProjectName) {
+      return throwError('A project with the same name already exists.', true);
+    }
+
+    console.log(`📝 Appending project alias to tsconfig.json...`);
+    const tsconfigPath = fromRoot('tsconfig.json');
+    const tsconfig = require(tsconfigPath);
+    const alias = `@${name}/`;
+    tsconfig.compilerOptions.paths[`${alias}*`] = [`projects/${name}/*`];
+    writeFileSync(tsconfigPath, JSON.stringify(tsconfig, null, 2));
+
+    console.log(`📝 Appending project info to workstation.json...`);
+    const root = `projects/${name}`;
+    this.config.projects.push({
+      name,
+      root,
+      port: 9621 + this.config.projects.length,
+    });
+
+    console.log(`👷 Checking whether '@octopus/cli-templates' installed or not...`);
+    await this.checkTemplatesPackage();
+
+    console.log(`📝 Copying project template file to workstation...`)
+    copySync(
+      fromRoot(`node_modules/@octopus/cli-templates/project/${this.config.type}/${this.config.language}`),
+      fromRoot(root),
+      {recursive: true, preserveTimestamps: true},
+    );
+
+    console.log(`📝 Modifying project alias...`);
+    await this.modifyProjectAlias(fromRoot(root), '@/', alias);
   }
 
   renameProject(name: string) {
+    const noSameProjectName = this.config.projects.every(p => p.name !== name);
+
+    if (noSameProjectName) {
+      return throwError('Project not found', true);
+    }
+
+    // tsconfig.json 修改 项目别名
+    // workstation.json 修改 项目信息
+    // 将 project 目录重命名
+    // 修改项目中的别名
   }
 
   removeProject(name: string) {
+    // tsconfig.json 删除 项目别名
+    // workstation.json 删除 项目信息
+    // 弹出确认框，删除不可恢复，请谨慎
+    // 若确认，删除 project 目录
   }
 }
 

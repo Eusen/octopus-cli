@@ -1,5 +1,6 @@
 import commander from 'commander';
 import chalk from 'chalk';
+import {throwError} from '../../utils';
 import {getName, getWorkstationType} from '../common';
 import {$workstation, WORKSTATION_TYPES_MAP} from '../../services/workstation/workstation.service';
 
@@ -15,12 +16,9 @@ export default {
 
         if (!options.type) options.type = await getWorkstationType();
         if (!(WORKSTATION_TYPES_MAP as any)[options.type]) {
-          return console.log(
-            chalk.bold(chalk.red('You can only choose one of the following three frameworks:\n')) +
-            chalk.yellowBright('vue\n') +
-            chalk.yellowBright('angular\n') +
-            chalk.yellowBright('react')
-          );
+          throwError('You can only choose one of the following three frameworks:');
+          Object.keys(WORKSTATION_TYPES_MAP).forEach(type => console.log(chalk.yellowBright(type)));
+          return process.exit(0);
         }
 
         await $workstation.create(name, options.type);

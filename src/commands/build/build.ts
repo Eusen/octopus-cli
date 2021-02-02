@@ -10,9 +10,8 @@ export default {
         .command(`build [project]`)
         .description(chalk.yellowBright('Build a project in production mode.'))
         .action(async (project: string) => {
-          const errMsg = await $workstation.syncConfig();
+          await $workstation.syncConfig();
 
-          if (errMsg) return console.log(errMsg);
           if (!project) project = await selectProject();
 
           return $project.build(project);

@@ -12,9 +12,7 @@ exports.default = {
             .command('add [type] [name]')
             .description(chalk_1.default.yellowBright('Adds an extras to your workstation'))
             .action(async (type, name) => {
-            const errMsg = await workstation_service_1.$workstation.syncConfig();
-            if (errMsg)
-                return console.log(errMsg);
+            await workstation_service_1.$workstation.syncConfig();
             if (!type)
                 type = await common_1.getExtraType();
             if (!name)

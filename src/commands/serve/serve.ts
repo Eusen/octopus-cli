@@ -10,9 +10,8 @@ export default {
       .command(`serve [project]`)
       .description(chalk.yellowBright('Serves a project in development mode'))
       .action(async (project: string) => {
-        const errMsg = await $workstation.syncConfig();
+        await $workstation.syncConfig();
 
-        if (errMsg) return console.log(errMsg);
         if (!project) project = await selectProject();
 
         return $project.serve(project);

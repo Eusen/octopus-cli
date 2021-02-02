@@ -16,17 +16,17 @@ const new_1 = __importDefault(require("./commands/new/new"));
 const serve_1 = __importDefault(require("./commands/serve/serve"));
 const build_1 = __importDefault(require("./commands/build/build"));
 const info_1 = __importDefault(require("./commands/info/info"));
+const utils_1 = require("./utils");
 class Main {
     static start() {
         const main = new Main();
         main.setup()
             .then(() => main.run())
-            .catch(err => {
-            console.log(chalk_1.default.red(err));
-        });
+            .catch(err => utils_1.throwError(err.message || err));
     }
     /**
-     * Some `@vue/cli` codes are used for reference
+     * Some `@vue/cli` codes are used for reference.
+     * Respect!
      */
     suggestCommands(unknownCommand = '') {
         const availableCommands = commander_1.program.commands.map(cmd => cmd.name());

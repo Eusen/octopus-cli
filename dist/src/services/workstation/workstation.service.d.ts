@@ -11,18 +11,20 @@ export declare const WORKSTATION_LANGUAGES_MAP: {
 };
 export declare type WorkstationLanguages = keyof typeof WORKSTATION_LANGUAGES_MAP;
 export interface WorkstationConfig {
-    name?: string;
-    type?: WorkstationTypes;
-    language?: WorkstationLanguages;
-    projects?: ProjectConfig[];
+    name: string;
+    type: WorkstationTypes;
+    language: WorkstationLanguages;
+    projects: ProjectConfig[];
 }
 export declare class WorkstationService {
     configPath: string;
     config: WorkstationConfig;
-    setConfig(config: WorkstationConfig): string | undefined;
-    syncConfig(): string | undefined;
+    setConfig(config: WorkstationConfig): void;
+    syncConfig(): void;
     create(name: string, type: WorkstationTypes): Promise<void>;
-    addProject(name: string): void;
+    private checkTemplatesPackage;
+    private modifyProjectAlias;
+    addProject(name: string): Promise<void>;
     renameProject(name: string): void;
     removeProject(name: string): void;
 }

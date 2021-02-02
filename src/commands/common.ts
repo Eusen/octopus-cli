@@ -37,7 +37,7 @@ export function selectProject() {
   return inquirer.prompt([{
     type: 'list',
     name: 'name',
-    choices: $workstation.config.projects?.map(p => p.name),
+    choices: $workstation.config.projects.map(p => p.name),
     message: 'Which project do you want to select?'
   }]).then(resp => resp.name);
 }

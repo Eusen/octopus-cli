@@ -31,7 +31,7 @@ export class ProjectService {
     commander.program.option('--project [name]', 'target project').parse();
 
     const options = commander.program.opts();
-    const projects = $workstation.config.projects!;
+    const projects = $workstation.config.projects;
 
 
     switch (this.type) {

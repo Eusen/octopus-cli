@@ -1,4 +1,4 @@
-import {moveSync} from 'fs-extra';
+import {removeSync} from 'fs-extra';
 import {existsSync, writeFileSync, readFileSync} from 'fs';
 import $path from 'path';
 import {WorkstationCreatorBase} from './_base';
@@ -8,10 +8,10 @@ import {exec, fromRoot, initRootPath} from '../../../utils';
 export class VueWorkstationCreator extends WorkstationCreatorBase {
   async create(): Promise<void> {
     await exec(`vue create ${this.name} --no-git`);
-    // vue 项目创建成功，初始化根目录
+
     initRootPath(this.name);
 
-    // 1. 生成 workstation 配置文件
+    console.log(`🔨  Generating workstation.json...`);
     await $workstation.setConfig({
       name: this.name,
       type: 'vue',
@@ -19,70 +19,41 @@ export class VueWorkstationCreator extends WorkstationCreatorBase {
       projects: [
         {
           name: 'main',
-          root: 'project/main',
+          root: 'projects/main',
           port: 9621
         }
       ]
     });
 
-    // 生成第一个 main 项目
-    console.log(`📄  Generating main project...`);
-    await this.initMainProject();
+    console.log(`🔥  Removing init files...`);
+    this.removeInitFiles();
 
-    // 将全局的 public 移动至 main 项目中
-    console.log(`📄  Move public to main project...`);
-    await this.movePublicFiles();
-
-    // 生成 vue.config.js
-    console.log(`📄  Generating vue.config.js...`);
+    console.log(`🔨  Generating vue.config.js...`);
     this.createVueConfigFile();
 
-    // package 中修改相关 scripts
-    console.log(`📄  Reset package scripts...`);
+    console.log(`📝  Reset package scripts...`);
     this.resetPackageScripts();
 
-    // 修改 @vue/cli 中的部分内容，以支持多项目结构
-    console.log(`📄  Modify '@vue/cli' to support multi project...`);
+    console.log(`🔧  Modify '@vue/cli' to support multi project...`);
     this.modifyVueCLI();
 
-    if ($workstation.config.language === 'ts') {
-      // 修改 tsconfig.json 中的 alias
-      console.log(`📄  Modify 'tsconfig.json'...`);
-      this.modifyTsConfigAlias();
-    }
+    console.log(`🚀 Installing Octopus CLI service. This might take a while..`);
+    await exec([
+      `cd ${fromRoot()}`,
+      'npm i -D https://github.com/Eusen/octopus-cli.git',
+      'npm i -D https://github.com/Eusen/octopus-cli-templates.git'
+    ].join(' && '));
 
-    // 本地安装 @octopus/cli
-    console.log(`⚙ Installing Octopus CLI service. This might take a while..`);
-    await exec(`cd ${fromRoot()} && npm i -D https://github.com/Eusen/octopus-cli.git`);
+    // 创建 main 项目
+    console.log(`✨ Creating main project...`);
+    await $workstation.addProject('main');
   }
 
-  async initMainProject() {
+  removeInitFiles() {
     const srcPath = fromRoot('src');
-    const mainProjectPath = fromRoot('project/main');
-
-    // 修改 alias
-    const homePagePath = $path.join(srcPath, 'views/Home.vue');
-    const homePageContent = readFileSync(homePagePath).toString();
-    writeFileSync(homePagePath, homePageContent.replace('@/', '@main/'));
-
-    moveSync(srcPath, mainProjectPath);
-
-    if ($workstation.config.language === 'ts') {
-      ['shims-tsx.d.ts', 'shims-vue.d.ts'].forEach(dts => {
-        const oldDts = $path.join(mainProjectPath, dts);
-        if (existsSync(oldDts)) {
-          const newDts = $path.join(srcPath, dts);
-          moveSync(oldDts, newDts);
-        }
-      });
-    }
-  }
-
-  movePublicFiles() {
     const publicPath = fromRoot('public');
-    const mainProjectAssetsPath = fromRoot('project/main/assets');
-    moveSync($path.join(mainProjectAssetsPath, 'logo.png'), $path.join(publicPath, 'logo.png'))
-    moveSync(publicPath, mainProjectAssetsPath, {overwrite: true});
+    removeSync(srcPath);
+    removeSync(publicPath);
   }
 
   createVueConfigFile() {
@@ -128,12 +99,5 @@ export class VueWorkstationCreator extends WorkstationCreatorBase {
       appContent = appContent.replace(/api\.resolve\('public'\)/g, `api.resolve(options.staticDir || 'public')`);
       writeFileSync(appPath, appContent);
     }
-  }
-
-  modifyTsConfigAlias() {
-    const tsconfigPath = fromRoot('tsconfig.json');
-    const tsconfigContent = require(tsconfigPath);
-    tsconfigContent.compilerOptions.paths['@main/*'] = ['project/main/*'];
-    writeFileSync(tsconfigPath, JSON.stringify(tsconfigContent, null, 2));
   }
 }

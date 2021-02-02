@@ -8,7 +8,7 @@ class VueProjectServe {
         const excludeKeys = ['name', 'port', 'root'];
         return {
             outputDir: `dist/${config.name}`,
-            staticDir: `${config.root}/assets`,
+            staticDir: `${config.root}/static`,
             devServer: {
                 port: config.port,
             },
@@ -23,7 +23,7 @@ class VueProjectServe {
             },
             configureWebpack: {
                 resolve: {
-                    alias: workstation_service_1.$workstation.config.projects?.reduce((alias, project) => {
+                    alias: workstation_service_1.$workstation.config.projects.reduce((alias, project) => {
                         alias[`@${project.name}`] = utils_1.fromRoot(`project/${project.name}`);
                         return alias;
                     }, {}),

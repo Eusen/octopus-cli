@@ -4,7 +4,7 @@ export interface ProjectConfig {
     port?: number;
 }
 export declare class ProjectService {
-    get type(): "vue" | "angular" | "react" | undefined;
+    get type(): "vue" | "angular" | "react";
     create(name: string): Promise<void>;
     serve(project: string): Promise<any>;
     build(project: string): Promise<any>;

@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk_1 = __importDefault(require("chalk"));
+const utils_1 = require("../../utils");
 const common_1 = require("../common");
 const workstation_service_1 = require("../../services/workstation/workstation.service");
 exports.default = {
@@ -18,10 +19,9 @@ exports.default = {
             if (!options.type)
                 options.type = await common_1.getWorkstationType();
             if (!workstation_service_1.WORKSTATION_TYPES_MAP[options.type]) {
-                return console.log(chalk_1.default.bold(chalk_1.default.red('You can only choose one of the following three frameworks:\n')) +
-                    chalk_1.default.yellowBright('vue\n') +
-                    chalk_1.default.yellowBright('angular\n') +
-                    chalk_1.default.yellowBright('react'));
+                utils_1.throwError('You can only choose one of the following three frameworks:');
+                Object.keys(workstation_service_1.WORKSTATION_TYPES_MAP).forEach(type => console.log(chalk_1.default.yellowBright(type)));
+                return process.exit(0);
             }
             await workstation_service_1.$workstation.create(name, options.type);
         });
