@@ -9,6 +9,7 @@ const utils_1 = require("../../utils");
 const vue_1 = require("./proxys/vue");
 const fs_extra_1 = require("fs-extra");
 const path_1 = __importDefault(require("path"));
+const chalk_1 = __importDefault(require("chalk"));
 exports.WORKSTATION_TYPES_MAP = {
     vue: true,
     angular: true,
@@ -65,11 +66,10 @@ class WorkstationService {
         }
     }
     async addProject(name) {
-        // 检测是否存在同名项目
+        console.log(`✨ Creating ${name} project...`);
         const noSameProjectName = this.config.projects.every(p => p.name !== name);
-        if (!noSameProjectName) {
+        if (!noSameProjectName)
             return utils_1.throwError('A project with the same name already exists.', true);
-        }
         console.log(`📝 Appending project alias to tsconfig.json...`);
         const tsconfigPath = utils_1.fromRoot('tsconfig.json');
         const tsconfig = require(tsconfigPath);
@@ -89,18 +89,26 @@ class WorkstationService {
         fs_extra_1.copySync(utils_1.fromRoot(`node_modules/@octopus/cli-templates/project/${this.config.type}/${this.config.language}`), utils_1.fromRoot(root), { recursive: true, preserveTimestamps: true });
         console.log(`📝 Modifying project alias...`);
         await this.modifyProjectAlias(utils_1.fromRoot(root), '@/', alias);
+        console.log(`✨ Successfully created project ${chalk_1.default.yellow(name)}.`);
+        console.log(`✨ Get started with the following commands:`);
+        console.log();
+        console.log(` $ ${chalk_1.default.blueBright(`cd ${name}`)}`);
+        console.log(` $ ${chalk_1.default.blueBright(`npm run serve`)}`);
+        console.log();
     }
     renameProject(name) {
         const noSameProjectName = this.config.projects.every(p => p.name !== name);
-        if (noSameProjectName) {
+        if (noSameProjectName)
             return utils_1.throwError('Project not found', true);
-        }
         // tsconfig.json 修改 项目别名
         // workstation.json 修改 项目信息
         // 将 project 目录重命名
         // 修改项目中的别名
     }
     removeProject(name) {
+        const noSameProjectName = this.config.projects.every(p => p.name !== name);
+        if (noSameProjectName)
+            return utils_1.throwError('Project not found', true);
         // tsconfig.json 删除 项目别名
         // workstation.json 删除 项目信息
         // 弹出确认框，删除不可恢复，请谨慎

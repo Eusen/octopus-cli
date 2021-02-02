@@ -4,6 +4,7 @@ import {ProjectConfig} from '../project/project.service';
 import {VueWorkstationCreator} from './proxys/vue';
 import {copySync} from 'fs-extra';
 import $path from "path";
+import chalk from "chalk";
 
 export const WORKSTATION_TYPES_MAP = {
   vue: true,
@@ -80,12 +81,10 @@ export class WorkstationService {
   }
 
   async addProject(name: string) {
-    // 检测是否存在同名项目
-    const noSameProjectName = this.config.projects.every(p => p.name !== name);
+    console.log(`✨ Creating ${name} project...`);
 
-    if (!noSameProjectName) {
-      return throwError('A project with the same name already exists.', true);
-    }
+    const noSameProjectName = this.config.projects.every(p => p.name !== name);
+    if (!noSameProjectName) return throwError('A project with the same name already exists.', true);
 
     console.log(`📝 Appending project alias to tsconfig.json...`);
     const tsconfigPath = fromRoot('tsconfig.json');
@@ -114,14 +113,18 @@ export class WorkstationService {
 
     console.log(`📝 Modifying project alias...`);
     await this.modifyProjectAlias(fromRoot(root), '@/', alias);
+
+    console.log(`✨ Successfully created project ${chalk.yellow(name)}.`);
+    console.log(`✨ Get started with the following commands:`);
+    console.log();
+    console.log(` $ ${chalk.blueBright(`cd ${name}`)}`);
+    console.log(` $ ${chalk.blueBright(`npm run serve`)}`);
+    console.log();
   }
 
   renameProject(name: string) {
     const noSameProjectName = this.config.projects.every(p => p.name !== name);
-
-    if (noSameProjectName) {
-      return throwError('Project not found', true);
-    }
+    if (noSameProjectName) return throwError('Project not found', true);
 
     // tsconfig.json 修改 项目别名
     // workstation.json 修改 项目信息
@@ -130,6 +133,9 @@ export class WorkstationService {
   }
 
   removeProject(name: string) {
+    const noSameProjectName = this.config.projects.every(p => p.name !== name);
+    if (noSameProjectName) return throwError('Project not found', true);
+
     // tsconfig.json 删除 项目别名
     // workstation.json 删除 项目信息
     // 弹出确认框，删除不可恢复，请谨慎

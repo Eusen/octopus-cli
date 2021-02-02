@@ -39,7 +39,6 @@ export class VueWorkstationCreator extends WorkstationCreatorBase {
     ].join(' && '));
 
     // 创建 main 项目
-    console.log(`✨ Creating main project...`);
     await $workstation.addProject('main');
   }
 

@@ -36,7 +36,6 @@ class VueWorkstationCreator extends _base_1.WorkstationCreatorBase {
             'npm i -D https://github.com/Eusen/octopus-cli-templates.git'
         ].join(' && '));
         // 创建 main 项目
-        console.log(`✨ Creating main project...`);
         await workstation_service_1.$workstation.addProject('main');
     }
     removeInitFiles() {
