@@ -17,6 +17,7 @@ export interface WorkstationConfig {
     projects: ProjectConfig[];
 }
 export declare class WorkstationService {
+    exts: string[];
     configPath: string;
     config: WorkstationConfig;
     setConfig(config: WorkstationConfig): void;

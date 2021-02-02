@@ -1,10 +1,10 @@
 import {existsSync, writeFileSync, statSync, readdirSync, readFileSync} from 'fs';
+import {copySync} from 'fs-extra';
+import $path from 'path';
+import chalk from 'chalk';
 import {exec, fromRoot, getRootPath, throwError} from '../../utils';
 import {ProjectConfig} from '../project/project.service';
 import {VueWorkstationCreator} from './proxys/vue';
-import {copySync} from 'fs-extra';
-import $path from "path";
-import chalk from "chalk";
 
 export const WORKSTATION_TYPES_MAP = {
   vue: true,
@@ -28,6 +28,7 @@ export interface WorkstationConfig {
 }
 
 export class WorkstationService {
+  exts = ['ts', 'tsx', 'js', 'jsx', 'vue'];
   configPath = '';
   config!: WorkstationConfig;
 
@@ -75,6 +76,7 @@ export class WorkstationService {
         await this.modifyProjectAlias($path.join(rootPath, dir), oldAlias, newAlias);
       }
     } else {
+      if ($path.extname(rootPath) === 'ts') return;
       const content = readFileSync(rootPath).toString();
       writeFileSync(rootPath, content.replace(new RegExp(oldAlias, 'g'), newAlias));
     }
@@ -86,12 +88,14 @@ export class WorkstationService {
     const noSameProjectName = this.config.projects.every(p => p.name !== name);
     if (!noSameProjectName) return throwError('A project with the same name already exists.', true);
 
-    console.log(`📝 Appending project alias to tsconfig.json...`);
-    const tsconfigPath = fromRoot('tsconfig.json');
-    const tsconfig = require(tsconfigPath);
     const alias = `@${name}/`;
-    tsconfig.compilerOptions.paths[`${alias}*`] = [`projects/${name}/*`];
-    writeFileSync(tsconfigPath, JSON.stringify(tsconfig, null, 2));
+    if (!this.exts.includes(this.config.language)) {
+      console.log(`📝 Appending project alias to tsconfig.json...`);
+      const tsconfigPath = fromRoot('tsconfig.json');
+      const tsconfig = require(tsconfigPath);
+      tsconfig.compilerOptions.paths[`${alias}*`] = [`projects/${name}/*`];
+      writeFileSync(tsconfigPath, JSON.stringify(tsconfig, null, 2));
+    }
 
     console.log(`📝 Appending project info to workstation.json...`);
     const root = `projects/${name}`;

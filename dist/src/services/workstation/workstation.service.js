@@ -5,11 +5,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.$workstation = exports.WorkstationService = exports.WORKSTATION_LANGUAGES_MAP = exports.WORKSTATION_TYPES_MAP = void 0;
 const fs_1 = require("fs");
-const utils_1 = require("../../utils");
-const vue_1 = require("./proxys/vue");
 const fs_extra_1 = require("fs-extra");
 const path_1 = __importDefault(require("path"));
 const chalk_1 = __importDefault(require("chalk"));
+const utils_1 = require("../../utils");
+const vue_1 = require("./proxys/vue");
 exports.WORKSTATION_TYPES_MAP = {
     vue: true,
     angular: true,
@@ -21,6 +21,7 @@ exports.WORKSTATION_LANGUAGES_MAP = {
 };
 class WorkstationService {
     constructor() {
+        this.exts = ['ts', 'tsx', 'js', 'jsx', 'vue'];
         this.configPath = '';
     }
     setConfig(config) {
@@ -61,6 +62,8 @@ class WorkstationService {
             }
         }
         else {
+            if (path_1.default.extname(rootPath) === 'ts')
+                return;
             const content = fs_1.readFileSync(rootPath).toString();
             fs_1.writeFileSync(rootPath, content.replace(new RegExp(oldAlias, 'g'), newAlias));
         }
@@ -70,12 +73,14 @@ class WorkstationService {
         const noSameProjectName = this.config.projects.every(p => p.name !== name);
         if (!noSameProjectName)
             return utils_1.throwError('A project with the same name already exists.', true);
-        console.log(`📝 Appending project alias to tsconfig.json...`);
-        const tsconfigPath = utils_1.fromRoot('tsconfig.json');
-        const tsconfig = require(tsconfigPath);
         const alias = `@${name}/`;
-        tsconfig.compilerOptions.paths[`${alias}*`] = [`projects/${name}/*`];
-        fs_1.writeFileSync(tsconfigPath, JSON.stringify(tsconfig, null, 2));
+        if (!this.exts.includes(this.config.language)) {
+            console.log(`📝 Appending project alias to tsconfig.json...`);
+            const tsconfigPath = utils_1.fromRoot('tsconfig.json');
+            const tsconfig = require(tsconfigPath);
+            tsconfig.compilerOptions.paths[`${alias}*`] = [`projects/${name}/*`];
+            fs_1.writeFileSync(tsconfigPath, JSON.stringify(tsconfig, null, 2));
+        }
         console.log(`📝 Appending project info to workstation.json...`);
         const root = `projects/${name}`;
         this.config.projects.push({
