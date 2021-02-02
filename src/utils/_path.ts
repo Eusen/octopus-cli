@@ -37,6 +37,10 @@ export function fromRoot(...paths: string[]) {
   return $path.join(getRootPath(), ...paths);
 }
 
+export function fromCLIRoot(...paths: string[]) {
+  return $path.join(__dirname, '../../templates', ...paths);
+}
+
 export function getWorkstationDirname() {
   return $path.basename(fromRoot());
 }

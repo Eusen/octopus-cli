@@ -2,7 +2,7 @@ import {existsSync, writeFileSync, statSync, readdirSync, readFileSync} from 'fs
 import {copySync} from 'fs-extra';
 import $path from 'path';
 import chalk from 'chalk';
-import {exec, fromRoot, getRootPath, throwError} from '../../utils';
+import {exec, fromCLIRoot, fromRoot, getRootPath, throwError} from '../../utils';
 import {ProjectConfig} from '../project/project.service';
 import {VueWorkstationCreator} from './proxys/vue';
 
@@ -110,11 +110,16 @@ export class WorkstationService {
     await this.checkTemplatesPackage();
 
     console.log(`📝 Copying project template file to workstation...`);
-    copySync(
-      fromRoot(`node_modules/@octopus/cli-templates/project/${this.config.type}/${this.config.language}`),
-      fromRoot(root),
-      {recursive: true, preserveTimestamps: true},
-    );
+    [
+      `templates/project/${this.config.type}/common`,
+      `templates/project/${this.config.type}/${this.config.language}`,
+    ].forEach(dir => {
+      copySync(
+        fromCLIRoot(dir),
+        fromRoot(root),
+        {recursive: true, preserveTimestamps: true},
+      );
+    });
 
     console.log(`📝 Modifying project alias...`);
     await this.modifyProjectAlias(fromRoot(root), '@/', alias);

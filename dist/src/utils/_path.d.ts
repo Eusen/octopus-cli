@@ -4,4 +4,5 @@
 export declare function getRootPath(): string;
 export declare function initRootPath(name: string): void;
 export declare function fromRoot(...paths: string[]): string;
+export declare function fromCLIRoot(...paths: string[]): string;
 export declare function getWorkstationDirname(): string;

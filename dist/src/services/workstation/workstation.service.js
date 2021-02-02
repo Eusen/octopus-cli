@@ -92,7 +92,12 @@ class WorkstationService {
         console.log(`👷 Checking whether '@octopus/cli-templates' installed or not...`);
         await this.checkTemplatesPackage();
         console.log(`📝 Copying project template file to workstation...`);
-        fs_extra_1.copySync(utils_1.fromRoot(`node_modules/@octopus/cli-templates/project/${this.config.type}/${this.config.language}`), utils_1.fromRoot(root), { recursive: true, preserveTimestamps: true });
+        [
+            `templates/project/${this.config.type}/common`,
+            `templates/project/${this.config.type}/${this.config.language}`,
+        ].forEach(dir => {
+            fs_extra_1.copySync(utils_1.fromCLIRoot(dir), utils_1.fromRoot(root), { recursive: true, preserveTimestamps: true });
+        });
         console.log(`📝 Modifying project alias...`);
         await this.modifyProjectAlias(utils_1.fromRoot(root), '@/', alias);
         console.log(`✨ Successfully created project ${chalk_1.default.yellow(name)}.`);

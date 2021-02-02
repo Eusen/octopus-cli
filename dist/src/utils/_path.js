@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getWorkstationDirname = exports.fromRoot = exports.initRootPath = exports.getRootPath = void 0;
+exports.getWorkstationDirname = exports.fromCLIRoot = exports.fromRoot = exports.initRootPath = exports.getRootPath = void 0;
 const path_1 = __importDefault(require("path"));
 const fs_1 = require("fs");
 let rootPath = '';
@@ -41,6 +41,10 @@ function fromRoot(...paths) {
     return path_1.default.join(getRootPath(), ...paths);
 }
 exports.fromRoot = fromRoot;
+function fromCLIRoot(...paths) {
+    return path_1.default.join(__dirname, '../../templates', ...paths);
+}
+exports.fromCLIRoot = fromCLIRoot;
 function getWorkstationDirname() {
     return path_1.default.basename(fromRoot());
 }

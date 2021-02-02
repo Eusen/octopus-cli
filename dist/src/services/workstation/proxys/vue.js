@@ -35,7 +35,7 @@ class VueWorkstationCreator extends _base_1.WorkstationCreatorBase {
         console.log(`🚀  Installing Octopus CLI service. This might take a while..`);
         await utils_1.exec([
             `cd ${utils_1.fromRoot()}`,
-            'npm i -D https://github.com/Eusen/octopus-cli.git https://github.com/Eusen/octopus-cli-templates.git',
+            'npm i -D https://github.com/Eusen/octopus-cli.git',
         ].join(' && '));
         // 创建 main 项目
         await workstation_service_1.$workstation.addProject('main');
