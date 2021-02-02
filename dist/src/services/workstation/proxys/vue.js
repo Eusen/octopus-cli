@@ -63,9 +63,9 @@ class VueWorkstationCreator extends _base_1.WorkstationCreatorBase {
     appendProjectToTsConfigIncludes() {
         const tsconfigPath = utils_1.fromRoot('tsconfig.json');
         const tsconfig = require(tsconfigPath);
-        tsconfig.includes.push('projects/**/*.ts');
-        tsconfig.includes.push('projects/**/*.tsx');
-        tsconfig.includes.push('projects/**/*.vue');
+        tsconfig.include.push('projects/**/*.ts');
+        tsconfig.include.push('projects/**/*.tsx');
+        tsconfig.include.push('projects/**/*.vue');
     }
     modifyVueCLI() {
         const rootPath = utils_1.fromRoot('node_modules/@vue/cli-service');
