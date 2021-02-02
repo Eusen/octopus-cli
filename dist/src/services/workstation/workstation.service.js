@@ -21,7 +21,7 @@ exports.WORKSTATION_LANGUAGES_MAP = {
 };
 class WorkstationService {
     constructor() {
-        this.exts = ['ts', 'tsx', 'js', 'jsx', 'vue'];
+        this.ext = ['ts', 'tsx', 'js', 'jsx', 'vue'];
         this.configPath = '';
     }
     setConfig(config) {
@@ -62,7 +62,7 @@ class WorkstationService {
             }
         }
         else {
-            if (path_1.default.extname(rootPath) === 'ts')
+            if (!this.ext.includes(path_1.default.basename(rootPath)))
                 return;
             const content = fs_1.readFileSync(rootPath).toString();
             fs_1.writeFileSync(rootPath, content.replace(new RegExp(oldAlias, 'g'), newAlias));
@@ -74,7 +74,7 @@ class WorkstationService {
         if (!noSameProjectName)
             return utils_1.throwError('A project with the same name already exists.', true);
         const alias = `@${name}/`;
-        if (!this.exts.includes(this.config.language)) {
+        if (this.config.language === 'ts') {
             console.log(`📝 Appending project alias to tsconfig.json...`);
             const tsconfigPath = utils_1.fromRoot('tsconfig.json');
             const tsconfig = require(tsconfigPath);

@@ -28,7 +28,7 @@ export interface WorkstationConfig {
 }
 
 export class WorkstationService {
-  exts = ['ts', 'tsx', 'js', 'jsx', 'vue'];
+  ext = ['ts', 'tsx', 'js', 'jsx', 'vue'];
   configPath = '';
   config!: WorkstationConfig;
 
@@ -76,7 +76,7 @@ export class WorkstationService {
         await this.modifyProjectAlias($path.join(rootPath, dir), oldAlias, newAlias);
       }
     } else {
-      if ($path.extname(rootPath) === 'ts') return;
+      if (!this.ext.includes($path.basename(rootPath))) return;
       const content = readFileSync(rootPath).toString();
       writeFileSync(rootPath, content.replace(new RegExp(oldAlias, 'g'), newAlias));
     }
@@ -89,7 +89,7 @@ export class WorkstationService {
     if (!noSameProjectName) return throwError('A project with the same name already exists.', true);
 
     const alias = `@${name}/`;
-    if (!this.exts.includes(this.config.language)) {
+    if (this.config.language === 'ts') {
       console.log(`📝 Appending project alias to tsconfig.json...`);
       const tsconfigPath = fromRoot('tsconfig.json');
       const tsconfig = require(tsconfigPath);
