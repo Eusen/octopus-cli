@@ -62,14 +62,14 @@ export class WorkstationService {
     return Promise.resolve();
   }
 
-  private async modifyProjectAlias(rootPath: string, oldAlias: string, newAlias: string) {
+  private modifyProjectAlias(rootPath: string, oldAlias: string, newAlias: string) {
     if (statSync(rootPath).isDirectory()) {
       const subDirs = readdirSync(rootPath);
-      for await (const dir of subDirs) {
-        await this.modifyProjectAlias($path.join(rootPath, dir), oldAlias, newAlias);
+      for (const dir of subDirs) {
+        this.modifyProjectAlias($path.join(rootPath, dir), oldAlias, newAlias);
       }
     } else {
-      if (!this.ext.includes($path.basename(rootPath))) return;
+      if (!this.ext.includes($path.extname(rootPath).substring(1))) return;
       const content = readFileSync(rootPath).toString();
       writeFileSync(rootPath, content.replace(new RegExp(oldAlias, 'g'), newAlias));
     }
@@ -101,8 +101,8 @@ export class WorkstationService {
 
     console.log(`📝 Copying project template file to workstation...`);
     [
-      `project/${this.config.type}/common`,
-      `project/${this.config.type}/${this.config.language}`,
+      `templates/project/${this.config.type}/common`,
+      `templates/project/${this.config.type}/${this.config.language}`,
     ].forEach(dir => {
       copySync(
         fromCLIRoot(dir),
@@ -112,7 +112,7 @@ export class WorkstationService {
     });
 
     console.log(`📝 Modifying project alias...`);
-    await this.modifyProjectAlias(fromRoot(root), '@/', alias);
+    this.modifyProjectAlias(fromRoot(root), '@/', alias);
 
     console.log(`✨ Successfully created project ${chalk.yellow(name)}.`);
     console.log(`✨ Get started with the following commands:`);
