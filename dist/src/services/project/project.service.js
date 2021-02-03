@@ -12,13 +12,11 @@ class ProjectService {
     get type() {
         return workstation_service_1.$workstation.config.type;
     }
-    async create(name) {
-    }
     serve(project) {
-        return utils_1.exec(`${utils_1.fromRoot('node_modules/.bin/vue-cli-service')} serve --project ${project} --open`);
+        return utils_1.exec(`${utils_1.fromRoot('node_modules/.bin/vue-cli-service')} serve --project ${project}`);
     }
     build(project) {
-        return utils_1.exec(`${utils_1.fromRoot('node_modules/.bin/vue-cli-service')} build --project ${project} --open`);
+        return utils_1.exec(`${utils_1.fromRoot('node_modules/.bin/vue-cli-service')} build --project ${project}`);
     }
     export() {
         workstation_service_1.$workstation.syncConfig();

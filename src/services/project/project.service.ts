@@ -14,9 +14,6 @@ export class ProjectService {
     return $workstation.config.type;
   }
 
-  async create(name: string) {
-  }
-
   serve(project: string) {
     return exec(`${fromRoot('node_modules/.bin/vue-cli-service')} serve --project ${project}`);
   }

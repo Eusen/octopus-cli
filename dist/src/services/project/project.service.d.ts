@@ -5,7 +5,6 @@ export interface ProjectConfig {
 }
 export declare class ProjectService {
     get type(): "vue" | "angular" | "react";
-    create(name: string): Promise<void>;
     serve(project: string): Promise<any>;
     build(project: string): Promise<any>;
     export(): import("./proxys/vue").VueProjectConfig | {
