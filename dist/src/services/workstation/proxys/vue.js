@@ -26,11 +26,11 @@ class VueWorkstationCreator extends _base_1.WorkstationCreatorBase {
         this.removeInitFiles();
         console.log(`🔨  Generating vue.config.js...`);
         this.createVueConfigFile();
-        console.log(`📝  Reset package scripts...`);
+        console.log(`📝  Resetting package scripts...`);
         this.resetPackageScripts();
         console.log(`📝  Appending project dir to tsconfig.json...`);
         this.appendProjectToTsConfigIncludes();
-        console.log(`🔧  Modify '@vue/cli' to support multi project...`);
+        console.log(`🔧  Modifying '@vue/cli' to support multi project...`);
         this.modifyVueCLI();
         console.log(`🚀  Installing Octopus CLI service. This might take a while..`);
         await utils_1.exec([
