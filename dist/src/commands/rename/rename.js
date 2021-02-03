@@ -9,17 +9,19 @@ const workstation_service_1 = require("../../services/workstation/workstation.se
 exports.default = {
     install(program) {
         program
-            .command('rename [type] [name]')
+            .command('rename [type] [old-name] [new-name]')
             .description(chalk_1.default.yellowBright('Renames an extras from your workstation'))
-            .action(async (type, name) => {
+            .action(async (type, oldName, newName) => {
             await workstation_service_1.$workstation.syncConfig();
             if (!type)
                 type = await common_1.getExtraType();
-            if (!name)
-                name = await common_1.getName(name);
+            if (!oldName)
+                oldName = await common_1.selectProject();
+            if (!newName)
+                newName = await common_1.getName(newName, true);
             switch (type) {
                 case 'project':
-                    return workstation_service_1.$workstation.renameProject(name);
+                    return workstation_service_1.$workstation.renameProject(oldName, newName);
             }
         });
     }

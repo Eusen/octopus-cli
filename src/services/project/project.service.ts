@@ -1,5 +1,5 @@
 import commander from 'commander';
-import {exec} from '../../utils';
+import {exec, fromRoot} from '../../utils';
 import {$workstation} from '../workstation/workstation.service';
 import {VueProjectServe} from './proxys/vue';
 
@@ -18,11 +18,11 @@ export class ProjectService {
   }
 
   serve(project: string) {
-    return exec(`vue-cli-service serve --project ${project}`);
+    return exec(`${fromRoot('node_modules/.bin/vue-cli-service')} serve --project ${project}`);
   }
 
   build(project: string) {
-    return exec(`vue-cli-service build --project ${project}`);
+    return exec(`${fromRoot('node_modules/.bin/vue-cli-service')} build --project ${project}`);
   }
 
   export() {
@@ -32,7 +32,6 @@ export class ProjectService {
 
     const options = commander.program.opts();
     const projects = $workstation.config.projects;
-
 
     switch (this.type) {
       case 'vue':

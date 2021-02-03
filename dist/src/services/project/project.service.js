@@ -15,10 +15,10 @@ class ProjectService {
     async create(name) {
     }
     serve(project) {
-        return utils_1.exec(`vue-cli-service serve --project ${project}`);
+        return utils_1.exec(`${utils_1.fromRoot('node_modules/.bin/vue-cli-service')} serve --project ${project} --open`);
     }
     build(project) {
-        return utils_1.exec(`vue-cli-service build --project ${project}`);
+        return utils_1.exec(`${utils_1.fromRoot('node_modules/.bin/vue-cli-service')} build --project ${project} --open`);
     }
     export() {
         workstation_service_1.$workstation.syncConfig();

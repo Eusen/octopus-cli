@@ -1,4 +1,7 @@
 {
+  "rulesDirectory": [
+    "src"
+  ],
   "rules": {
     "quotemark": {
       "options": "single"

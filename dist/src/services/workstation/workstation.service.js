@@ -10,6 +10,7 @@ const path_1 = __importDefault(require("path"));
 const chalk_1 = __importDefault(require("chalk"));
 const utils_1 = require("../../utils");
 const vue_1 = require("./proxys/vue");
+const common_1 = require("../../commands/common");
 exports.WORKSTATION_TYPES_MAP = {
     vue: true,
     angular: true,
@@ -58,8 +59,11 @@ class WorkstationService {
         else {
             if (!this.ext.includes(path_1.default.extname(rootPath).substring(1)))
                 return;
-            const content = fs_1.readFileSync(rootPath).toString();
-            fs_1.writeFileSync(rootPath, content.replace(new RegExp(oldAlias, 'g'), newAlias));
+            let content = fs_1.readFileSync(rootPath).toString();
+            content = content.replace(new RegExp(oldAlias, 'g'), newAlias);
+            const name = newAlias.replace('@', '').replace('/', '');
+            content = content.replace('@ is an alias to /src', `@${name} is an alias to /project/${name}`);
+            fs_1.writeFileSync(rootPath, content);
         }
     }
     async addProject(name) {
@@ -95,27 +99,62 @@ class WorkstationService {
         console.log(`✨ Successfully created project ${chalk_1.default.yellow(name)}.`);
         console.log(`✨ Get started with the following commands:`);
         console.log();
-        console.log(` $ ${chalk_1.default.blueBright(`cd ${this.config.name}`)}`);
-        console.log(` $ ${chalk_1.default.blueBright(`npm run serve`)}`);
+        if (process.cwd() !== utils_1.fromRoot()) {
+            console.log(` $ ${chalk_1.default.blueBright(`cd ${this.config.name}`)}`);
+        }
+        console.log(` $ ${chalk_1.default.blueBright(`ops serve ${name}`)}`);
         console.log();
     }
-    renameProject(name) {
-        const noSameProjectName = this.config.projects.every(p => p.name !== name);
+    renameProject(oldName, newName) {
+        const noSameProjectName = this.config.projects.every(p => p.name !== oldName);
         if (noSameProjectName)
             return utils_1.throwError('Project not found', true);
-        // tsconfig.json 修改 项目别名
-        // workstation.json 修改 项目信息
-        // 将 project 目录重命名
-        // 修改项目中的别名
+        const oldAlias = `@${oldName}/`;
+        const newAlias = `@${newName}/`;
+        if (this.config.language === 'ts') {
+            console.log(`📝 Renaming project alias in tsconfig.json...`);
+            const tsconfigPath = utils_1.fromRoot('tsconfig.json');
+            const tsconfig = require(tsconfigPath);
+            delete tsconfig.compilerOptions.paths[`${oldAlias}*`];
+            tsconfig.compilerOptions.paths[`${newAlias}*`] = [`projects/${newName}/*`];
+            fs_1.writeFileSync(tsconfigPath, JSON.stringify(tsconfig, null, 2));
+        }
+        console.log(`📝 Modify project info in workstation.json...`);
+        this.config.projects = this.config.projects.map(p => {
+            if (p.name === oldName) {
+                p.name = newName;
+                p.root = `projects/${newName}`;
+            }
+            return p;
+        });
+        this.syncConfig();
+        console.log(`📝 Renaming project dir...`);
+        const root = `projects/${newName}`;
+        fs_extra_1.moveSync(utils_1.fromRoot(`projects/${oldName}`), utils_1.fromRoot(root));
+        console.log(`📝 Renaming project dir...`);
+        this.modifyProjectAlias(utils_1.fromRoot(root), oldAlias, newAlias);
+        console.log(`✨ Successfully rename project ${chalk_1.default.yellow(newName)}.`);
     }
-    removeProject(name) {
+    async removeProject(name) {
         const noSameProjectName = this.config.projects.every(p => p.name !== name);
         if (noSameProjectName)
             return utils_1.throwError('Project not found', true);
-        // tsconfig.json 删除 项目别名
-        // workstation.json 删除 项目信息
-        // 弹出确认框，删除不可恢复，请谨慎
-        // 若确认，删除 project 目录
+        const resp = await common_1.confirm(chalk_1.default.red('It cannot be restored after remove. Are you sure you want to remove it.'));
+        if (!resp)
+            return;
+        if (this.config.language === 'ts') {
+            console.log(`🔥 Removing project alias in tsconfig.json...`);
+            const tsconfigPath = utils_1.fromRoot('tsconfig.json');
+            const tsconfig = require(tsconfigPath);
+            delete tsconfig.compilerOptions.paths[`@${name}/*`];
+            fs_1.writeFileSync(tsconfigPath, JSON.stringify(tsconfig, null, 2));
+        }
+        console.log(`🔥 Removing project info in workstation.json...`);
+        this.config.projects = this.config.projects.filter(p => p.name !== name);
+        this.syncConfig();
+        console.log(`🔥 Removing project...`);
+        fs_extra_1.removeSync(utils_1.fromRoot(`projects/${name}`));
+        console.log(chalk_1.default.red(`✨ Successfully remove project ${chalk_1.default.yellow(name)}, hope you don't regret it ~`));
     }
 }
 exports.WorkstationService = WorkstationService;

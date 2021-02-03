@@ -16,11 +16,11 @@ export function getExtraType() {
   }]).then(resp => resp.type);
 }
 
-export function getName(type: string) {
+export function getName(type: string, isNew = false) {
   return inquirer.prompt([{
     type: 'input',
     name: 'name',
-    message: `Give ${type} a name`
+    message: `Give ${type} a ${isNew ? 'new name' : 'name'}`,
   }]).then(resp => resp.name);
 }
 
@@ -40,4 +40,12 @@ export function selectProject() {
     choices: $workstation.config.projects.map(p => p.name),
     message: 'Which project do you want to select?'
   }]).then(resp => resp.name);
+}
+
+export function confirm(message: string) {
+  return inquirer.prompt([{
+    type: 'confirm',
+    name: 'confirm',
+    message,
+  }]).then(resp => resp.confirm);
 }

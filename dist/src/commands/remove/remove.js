@@ -16,7 +16,7 @@ exports.default = {
             if (!type)
                 type = await common_1.getExtraType();
             if (!name)
-                name = await common_1.getName(name);
+                name = await common_1.selectProject();
             switch (type) {
                 case 'project':
                     return workstation_service_1.$workstation.removeProject(name);

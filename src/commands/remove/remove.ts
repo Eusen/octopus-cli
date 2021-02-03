@@ -1,7 +1,7 @@
 import commander from 'commander';
 import chalk from 'chalk';
 import {$workstation} from '../../services/workstation/workstation.service';
-import {ExtraTypes, getName, getExtraType} from '../common';
+import {ExtraTypes, getExtraType, selectProject} from '../common';
 
 export default {
   install(program: commander.Command) {
@@ -12,7 +12,7 @@ export default {
         await $workstation.syncConfig();
 
         if (!type) type = await getExtraType();
-        if (!name) name = await getName(name);
+        if (!name) name = await selectProject();
 
         switch (type) {
           case 'project':

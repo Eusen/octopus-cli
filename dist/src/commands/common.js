@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.selectProject = exports.getWorkstationType = exports.getName = exports.getExtraType = exports.EXTRA_TYPES_MAP = void 0;
+exports.confirm = exports.selectProject = exports.getWorkstationType = exports.getName = exports.getExtraType = exports.EXTRA_TYPES_MAP = void 0;
 const inquirer_1 = __importDefault(require("inquirer"));
 const workstation_service_1 = require("../services/workstation/workstation.service");
 exports.EXTRA_TYPES_MAP = {
@@ -18,11 +18,11 @@ function getExtraType() {
         }]).then(resp => resp.type);
 }
 exports.getExtraType = getExtraType;
-function getName(type) {
+function getName(type, isNew = false) {
     return inquirer_1.default.prompt([{
             type: 'input',
             name: 'name',
-            message: `Give ${type} a name`
+            message: `Give ${type} a ${isNew ? 'new name' : 'name'}`,
         }]).then(resp => resp.name);
 }
 exports.getName = getName;
@@ -44,4 +44,12 @@ function selectProject() {
         }]).then(resp => resp.name);
 }
 exports.selectProject = selectProject;
+function confirm(message) {
+    return inquirer_1.default.prompt([{
+            type: 'confirm',
+            name: 'confirm',
+            message,
+        }]).then(resp => resp.confirm);
+}
+exports.confirm = confirm;
 //# sourceMappingURL=common.js.map
