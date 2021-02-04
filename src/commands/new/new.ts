@@ -8,7 +8,7 @@ export default {
   install(program: commander.Command) {
     program
       .command('new [name]')
-      .description(chalk.yellowBright('Creates a workstation'))
+      .description(chalk.yellowBright('Create a new workstation'))
       .option('-t, --type <type>', 'Specifies the type of workstation')
       .action(async (name, options) => {
 

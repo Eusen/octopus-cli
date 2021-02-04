@@ -8,7 +8,7 @@ export default {
   install(program: commander.Command) {
     program
       .command(`serve [project]`)
-      .description(chalk.yellowBright('Serves a project in development mode'))
+      .description(chalk.yellowBright('Serve a project in development mode'))
       .action(async (project: string) => {
         await $workstation.syncConfig();
 

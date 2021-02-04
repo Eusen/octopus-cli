@@ -156,6 +156,12 @@ class WorkstationService {
         fs_extra_1.removeSync(utils_1.fromRoot(`projects/${name}`));
         console.log(chalk_1.default.red(`✨ Successfully remove project ${chalk_1.default.yellow(name)}, hope you don't regret it ~`));
     }
+    repair() {
+        switch (this.config.type) {
+            case 'vue':
+                return new vue_1.VueWorkstationCreator('').modifyVueCLI();
+        }
+    }
 }
 exports.WorkstationService = WorkstationService;
 exports.$workstation = new WorkstationService();

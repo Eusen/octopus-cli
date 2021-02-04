@@ -27,5 +27,6 @@ export declare class WorkstationService {
     addProject(name: string): Promise<void>;
     renameProject(oldName: string, newName: string): void;
     removeProject(name: string): Promise<void>;
+    repair(): void;
 }
 export declare const $workstation: WorkstationService;

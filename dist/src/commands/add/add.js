@@ -10,7 +10,7 @@ exports.default = {
     install(program) {
         program
             .command('add [type] [name]')
-            .description(chalk_1.default.yellowBright('Adds an extras to your workstation'))
+            .description(chalk_1.default.yellowBright('Add an extras to your workstation'))
             .action(async (type, name) => {
             await workstation_service_1.$workstation.syncConfig();
             if (!type)

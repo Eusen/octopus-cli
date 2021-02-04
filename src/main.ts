@@ -9,7 +9,9 @@ import RemoveCommand from './commands/remove/remove';
 import NewCommand from './commands/new/new';
 import ServeCommand from './commands/serve/serve';
 import BuildCommand from './commands/build/build';
+import RepairCommand from './commands/repair/repair';
 import InfoCommand from './commands/info/info';
+// import StartCommand from './commands/start/start';
 import {throwError} from './utils';
 
 export class Main {
@@ -58,6 +60,7 @@ export class Main {
       AddCommand.install(program);
       RenameCommand.install(program);
       RemoveCommand.install(program);
+      RepairCommand.install(program);
       InfoCommand.install(program);
 
       // output help information on unknown commands

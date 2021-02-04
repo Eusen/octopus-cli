@@ -7,7 +7,7 @@ export default {
   install(program: commander.Command) {
     program
       .command('remove [type] [name]')
-      .description(chalk.yellowBright('Removes an extras from your workstation'))
+      .description(chalk.yellowBright('Remove an extras from your workstation'))
       .action(async (type: ExtraTypes, name) => {
         await $workstation.syncConfig();
 

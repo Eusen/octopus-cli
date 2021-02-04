@@ -7,7 +7,7 @@ export default {
   install(program: commander.Command) {
     program
       .command('add [type] [name]')
-      .description(chalk.yellowBright('Adds an extras to your workstation'))
+      .description(chalk.yellowBright('Add an extras to your workstation'))
       .action(async (type: ExtraTypes, name) => {
         await $workstation.syncConfig();
 

@@ -3,14 +3,23 @@ import {existsSync, writeFileSync, readFileSync} from 'fs';
 import $path from 'path';
 import {WorkstationCreatorBase} from './_base';
 import {$workstation} from '../workstation.service';
-import {cls, exec, fromCLIRoot, fromRoot, initRootPath} from '../../../utils';
+import {cls, exec, fromRoot, initRootPath} from '../../../utils';
 
 export class VueWorkstationCreator extends WorkstationCreatorBase {
   async create(): Promise<void> {
     await exec(`vue create ${this.name} --no-git`);
-
     cls();
+    await this.initWorkstation();
+    this.removeInitFiles();
+    this.createVueConfigFile();
+    this.resetPackageScripts();
+    this.appendProjectToTsConfigIncludes();
+    this.modifyVueCLI();
+    await this.installDeps();
+    await $workstation.addProject('main');
+  }
 
+  async initWorkstation() {
     initRootPath(this.name);
 
     console.log(`🔨  Generating workstation.json...`);
@@ -20,33 +29,11 @@ export class VueWorkstationCreator extends WorkstationCreatorBase {
       language: existsSync(fromRoot('tsconfig.json')) ? 'ts' : 'js',
       projects: []
     });
-
-    console.log(`🔥  Removing init files...`);
-    this.removeInitFiles();
-
-    console.log(`🔨  Generating vue.config.js...`);
-    this.createVueConfigFile();
-
-    console.log(`📝  Resetting package scripts...`);
-    this.resetPackageScripts();
-
-    console.log(`📝  Appending project dir to tsconfig.json...`);
-    this.appendProjectToTsConfigIncludes();
-
-    console.log(`🔧  Modifying '@vue/cli' to support multi project...`);
-    this.modifyVueCLI();
-
-    console.log(`🚀  Installing Octopus CLI service. This might take a while..`);
-    await exec([
-      `cd ${fromRoot()}`,
-      'npm i -D https://github.com/Eusen/octopus-cli.git',
-    ].join(' && '));
-
-    // 创建 main 项目
-    await $workstation.addProject('main');
   }
 
   removeInitFiles() {
+    console.log(`🔥  Removing init files...`);
+
     const srcPath = fromRoot('src');
     const publicPath = fromRoot('public');
     removeSync(srcPath);
@@ -54,11 +41,15 @@ export class VueWorkstationCreator extends WorkstationCreatorBase {
   }
 
   createVueConfigFile() {
+    console.log(`🔨  Generating vue.config.js...`);
+
     const vueConfigPath = fromRoot('vue.config.js');
     writeFileSync(vueConfigPath, `module.exports = require('@octopus/cli').$project.export();\n`);
   }
 
   resetPackageScripts() {
+    console.log(`📝  Resetting package scripts...`);
+
     const packageJsonPath = fromRoot('package.json');
     const json = require(packageJsonPath);
     json.scripts = {
@@ -69,6 +60,8 @@ export class VueWorkstationCreator extends WorkstationCreatorBase {
   }
 
   appendProjectToTsConfigIncludes() {
+    console.log(`📝  Appending project dir to tsconfig.json...`);
+
     const tsconfigPath = fromRoot('tsconfig.json');
     const tsconfig = require(tsconfigPath);
     tsconfig.include.push('projects/**/*.ts');
@@ -77,8 +70,9 @@ export class VueWorkstationCreator extends WorkstationCreatorBase {
   }
 
   modifyVueCLI() {
-    const rootPath = fromRoot('node_modules/@vue/cli-service');
+    console.log(`🔧  Modifying '@vue/cli' to support multi project...`);
 
+    const rootPath = fromRoot('node_modules/@vue/cli-service');
     const optionsPath = $path.join(rootPath, 'lib/options.js');
     let optionsContent = readFileSync(optionsPath).toString();
     if (!optionsContent.includes('staticDir')) {
@@ -104,5 +98,13 @@ export class VueWorkstationCreator extends WorkstationCreatorBase {
       appContent = appContent.replace(/api\.resolve\('public'\)/g, `api.resolve(options.staticDir || 'public')`);
       writeFileSync(appPath, appContent);
     }
+  }
+
+  async installDeps() {
+    console.log(`🚀  Installing Octopus CLI service. This might take a while..`);
+    await exec([
+      `cd ${fromRoot()}`,
+      'npm i -D https://github.com/Eusen/octopus-cli.git',
+    ].join(' && '));
   }
 }

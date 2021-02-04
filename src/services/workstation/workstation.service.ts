@@ -189,6 +189,13 @@ export class WorkstationService {
 
     console.log(chalk.red(`✨ Successfully remove project ${chalk.yellow(name)}, hope you don't regret it ~`));
   }
+
+  repair() {
+    switch (this.config.type) {
+      case 'vue':
+        return new VueWorkstationCreator('').modifyVueCLI();
+    }
+  }
 }
 
 export const $workstation = new WorkstationService();

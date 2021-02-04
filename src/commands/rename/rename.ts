@@ -7,7 +7,7 @@ export default {
   install(program: commander.Command) {
     program
       .command('rename [type] [old-name] [new-name]')
-      .description(chalk.yellowBright('Renames an extras from your workstation'))
+      .description(chalk.yellowBright('Rename an extras from your workstation'))
       .action(async (type: ExtraTypes, oldName: string, newName: string) => {
         await $workstation.syncConfig();
 

@@ -11,7 +11,7 @@ exports.default = {
     install(program) {
         program
             .command('new [name]')
-            .description(chalk_1.default.yellowBright('Creates a workstation'))
+            .description(chalk_1.default.yellowBright('Create a new workstation'))
             .option('-t, --type <type>', 'Specifies the type of workstation')
             .action(async (name, options) => {
             if (!name)

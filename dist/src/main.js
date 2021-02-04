@@ -15,7 +15,9 @@ const remove_1 = __importDefault(require("./commands/remove/remove"));
 const new_1 = __importDefault(require("./commands/new/new"));
 const serve_1 = __importDefault(require("./commands/serve/serve"));
 const build_1 = __importDefault(require("./commands/build/build"));
+const repair_1 = __importDefault(require("./commands/repair/repair"));
 const info_1 = __importDefault(require("./commands/info/info"));
+// import StartCommand from './commands/start/start';
 const utils_1 = require("./utils");
 class Main {
     static start() {
@@ -57,6 +59,7 @@ class Main {
             add_1.default.install(commander_1.program);
             rename_1.default.install(commander_1.program);
             remove_1.default.install(commander_1.program);
+            repair_1.default.install(commander_1.program);
             info_1.default.install(commander_1.program);
             // output help information on unknown commands
             commander_1.program
