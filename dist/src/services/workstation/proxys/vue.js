@@ -56,6 +56,8 @@ class VueWorkstationCreator extends _base_1.WorkstationCreatorBase {
         fs_1.writeFileSync(packageJsonPath, JSON.stringify(json, null, 2));
     }
     appendProjectToTsConfigIncludes() {
+        if (workstation_service_1.$workstation.config.language !== 'ts')
+            return;
         console.log(`📝  Appending project dir to tsconfig.json...`);
         const tsconfigPath = utils_1.fromRoot('tsconfig.json');
         const tsconfig = require(tsconfigPath);

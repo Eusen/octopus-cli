@@ -60,6 +60,8 @@ export class VueWorkstationCreator extends WorkstationCreatorBase {
   }
 
   appendProjectToTsConfigIncludes() {
+    if ($workstation.config.language !== 'ts') return;
+
     console.log(`📝  Appending project dir to tsconfig.json...`);
 
     const tsconfigPath = fromRoot('tsconfig.json');
@@ -78,9 +80,9 @@ export class VueWorkstationCreator extends WorkstationCreatorBase {
     if (!optionsContent.includes('staticDir')) {
       const index = optionsContent.indexOf('publicPath:');
       optionsContent =
-          optionsContent.substring(0, index) +
-          `hmr: joi.boolean(),\n  staticDir: joi.string().allow(''),\n  ` +
-          optionsContent.substring(index, optionsContent.length);
+        optionsContent.substring(0, index) +
+        `hmr: joi.boolean(),\n  staticDir: joi.string().allow(''),\n  ` +
+        optionsContent.substring(index, optionsContent.length);
       writeFileSync(optionsPath, optionsContent);
     }
 
