@@ -107,7 +107,6 @@ export class VueWorkstationCreator extends WorkstationCreatorBase {
     const deps = [
       'https://github.com/Eusen/octopus-cli.git',
       'vue-router',
-      'register-service-worker',
       'vue-property-decorator',
     ];
     await exec([
