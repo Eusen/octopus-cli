@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import HelloWorld from '@/components/hello-world/hello-world.vue' // @ is an alias to /src
+import HelloWorld from '@/components/hello-world/hello-world.vue'
 
 @Component({
   components: {

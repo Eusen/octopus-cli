@@ -104,9 +104,15 @@ export class VueWorkstationCreator extends WorkstationCreatorBase {
 
   async installDeps() {
     console.log(`🚀  Installing Octopus CLI service. This might take a while..`);
+    const deps = [
+      'https://github.com/Eusen/octopus-cli.git',
+      'vue-router',
+      'register-service-worker',
+      'vue-property-decorator',
+    ];
     await exec([
       `cd ${fromRoot()}`,
-      'npm i -D https://github.com/Eusen/octopus-cli.git',
+      `npm i -D ${deps.join(' ')}`,
     ].join(' && '));
   }
 }
